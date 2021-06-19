@@ -12,6 +12,7 @@
 #include "puz/corner.h"
 #include "puz/face.h"
 #include "puz/message.h"
+#include "puz/utils.h"
 
 namespace puzzle {
 
@@ -30,16 +31,12 @@ double Edge::Score() const {
 
 std::string Edge::PrettyPrint() const {
   std::string r;
-  if (state_ != 2) {
+  if (state_ != EDGE_ON) {
     return " ";
   }
-  if (state_ == 2) {
-    r += "\033[93;1m";
-  }
+  r += "\033[93;1m";
   r += print_char_;
-  if (state_ == 2) {
-    r += "\033[0m";
-  }
+  r += "\033[0m";
   return r;
 }
 
@@ -57,7 +54,7 @@ std::string Edge::DebugPrint() const {
 
 std::vector<Message> Edge::ConstructMessages() {
   std::vector<Message> r;
-  bool bool_state = state_ == 2;
+  bool bool_state = state_ == EDGE_ON;
   for (auto& tup : faces_) {
     Face* face = std::get<0>(tup);
     auto index = std::get<1>(tup);
@@ -65,7 +62,7 @@ std::vector<Message> Edge::ConstructMessages() {
   }
   for (auto& tup : corners_) {
     Corner* corner = std::get<0>(tup);
-    assert((corner != nullptr) && "NULL COR");
+    assert((corner != nullptr) && "NULL CORNER");
     auto index = std::get<1>(tup);
     r.push_back(Message::FromEdge(this, corner, timestamp_, index, bool_state));
   }
@@ -83,7 +80,7 @@ std::vector<Message> Edge::ConstructMessages() {
 
 uint16_t Edge::NewState(const Message& m) {
   assert((m.tag == MessageTag::T_ToEdge) && "Wrong MessageType");
-  return (m.edge_state ? 2 : 1) & state_;
+  return (m.edge_state ? EDGE_ON : EDGE_OFF) & state_;
 }
 
 MessageResult Edge::Receive(const Message& message, ActionStack* stack,
@@ -96,7 +93,7 @@ MessageResult Edge::Receive(const Message& message, ActionStack* stack,
   state_ = new_state;
   stack->AddAction(Action(this));
   timestamp_ = stack->Timestamp();
-  if (new_state == 0) {
+  if (new_state == CONTRADICTION) {
     return MessageResult::CONTRADICTION;
   }
   const auto& new_messages = ConstructMessages();

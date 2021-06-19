@@ -65,8 +65,8 @@ std::vector<Message> Face::ConstructMessages() {
   std::vector<Message> r;
   for (int i = 0; i < edges_.size(); ++i) {
     uint16_t projected = ProjectSingle(state_, i);
-    if (projected == 1 || projected == 2) {
-      bool bool_state = projected == 2;
+    if (projected == EDGE_ON || projected == EDGE_OFF) {
+      bool bool_state = projected == EDGE_ON;
       r.push_back(Message::ToEdge(this, edges_[i], timestamp_, bool_state));
     }
   }
@@ -109,8 +109,8 @@ uint16_t Face::NewState(const Message& m) {
     return ReduceSingle(state_, m.index1, m.edge_state);
   }
   {
-    return Reduce2(state_, m.projected_state,
-                   std::vector<int>{m.index1, m.index2});
+    return Reduce(state_, m.projected_state,
+                  std::vector<int>{m.index1, m.index2});
   }
 }
 
@@ -125,7 +125,7 @@ MessageResult Face::Receive(const Message& message, ActionStack* stack,
   state_ = new_state;
   stack->AddAction(Action(this));
   timestamp_ = stack->Timestamp();
-  if (new_state == 0) {
+  if (new_state == CONTRADICTION) {
     return MessageResult::CONTRADICTION;
   }
   const auto& new_messages = ConstructMessages();

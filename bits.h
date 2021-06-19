@@ -47,6 +47,8 @@ class BitIterator {
 // Example:
 // N: 13 ==> 1101 and indexes: 0, 1, 3
 // returns 101 (because 0th bit is set, 1st bit is not, 3rd bit is set)
+//
+// Declared in the header for testing.
 uint16_t Project2(int n, std::vector<int> indexes);
 
 // Given n that represents a bitset:
@@ -54,6 +56,7 @@ uint16_t Project2(int n, std::vector<int> indexes);
 // 2. take the union of the rows.
 // 3. return another bit set that represents the rows.
 // Example:
+// Project2(42, {0, 2}) ==>
 // n = 42 ==> 00000101010
 //        ==> 1st, 3rd, 5th rows are present
 //        ==> 0001, 0011, 0101
@@ -73,10 +76,7 @@ uint16_t Project(uint16_t n, std::vector<int> indexes);
 uint16_t ProjectSingle(uint16_t n, int index);
 
 // Reduce n with respect to m. indexes belong to n.
-uint16_t Reduce2(uint16_t n, uint16_t m, std::vector<int> n_indexes);
-
-uint16_t Reduce(uint16_t n, std::vector<int> n_indexes, uint16_t m,
-                std::vector<int> m_indexes);
+uint16_t Reduce(uint16_t n, uint16_t m, std::vector<int> n_indexes);
 
 uint16_t ReduceSingle(uint16_t n, int index, bool equals_to);
 

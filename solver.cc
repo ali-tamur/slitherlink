@@ -20,7 +20,7 @@ Solution GetSolution(Grid* g) {
 
   Solution result;
   for (auto& e : g->Edges()) {
-    if (e.State() == 2) {
+    if (e.State() == EDGE_ON) {
       result.push_back(std::make_tuple(e.Row(), e.Col(), e.Orientation()));
     }
   }
@@ -34,9 +34,9 @@ void InitialConsequences(Grid* g, MessageStack* ms) {
   for (Face& f : g->Faces()) {
     ms->PushAll(f.ConstructMessages());
   }
-  // TEMP
+  // Tobe used in debugging (setting some edges beforehand)
   for (Edge& e : g->Edges()) {
-    if (e.State() != 3) {
+    if (e.State() != EDGE_UNKNOWN) {
       ms->PushAll(e.ConstructMessages());
     }
   }
@@ -112,7 +112,7 @@ bool CheckSolution(Grid* g) {
     }
     int count = 0;
     for (Edge* e : f.Edges()) {
-      if (e->State() == 2) {
+      if (e->State() == EDGE_ON) {
         ++count;
       }
     }
@@ -128,7 +128,7 @@ Edge* MakeAssumption(Grid* g) {
   double best_score = -1;
   for (auto& e : g->Edges()) {
     Edge* edge = &e;
-    if (edge->State() != 3) {
+    if (edge->State() != EDGE_UNKNOWN) {
       continue;
     }
     double now_score = edge->Score();

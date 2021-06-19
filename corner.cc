@@ -32,6 +32,18 @@ void Corner::Init() {
   old_states_.clear();
 }
 
+  void Corner::SetFaces(Face* upright, Face* downright, Face* downleft, Face* upleft) {
+    upright_ = upright;
+    downright_ = downright;
+    downleft_ = downleft;
+    upleft_ = upleft;
+    print_char_ = SetPrintChar();
+  }
+
+  void Corner::SetEdges(Edge* up, Edge* right, Edge* down, Edge* left) {
+    edges_ = {up, right, down, left};
+  }
+
 std::vector<Message> Corner::ConstructMessages() {
   std::vector<Message> r;
   for (int i = 0; i < edges_.size(); ++i) {
@@ -39,8 +51,8 @@ std::vector<Message> Corner::ConstructMessages() {
       continue;
     }
     uint16_t projected = ProjectSingle(state_, i);
-    if (projected == 1 || projected == 2) {
-      bool bool_state = projected == 2;
+    if (projected == EDGE_ON || projected == EDGE_OFF) {
+      bool bool_state = projected == EDGE_ON;
       r.push_back(Message::ToEdge(this, edges_[i], timestamp_, bool_state));
     }
   }
@@ -80,21 +92,25 @@ std::string Corner::PrettyPrint() const {
   if (n != 1) {
     return " ";
   }
+  std::string result = "\033[93;1m";
   int i = __builtin_ctz(state_);
   if (i == 3) {
-    return "\033[93;1m└\033[0m";
+    result += "└";
   } else if (i == 5) {
-    return "\033[93;1m│\033[0m";
+    result += "│";
   } else if (i == 6) {
-    return "\033[93;1m┌\033[0m";
+    result += "┌";
   } else if (i == 9) {
-    return "\033[93;1m┘\033[0m";
+    result += "┘";
   } else if (i == 10) {
-    return "\033[93;1m─\033[0m";
+    result += "─";
   } else if (i == 12) {
-    return "\033[93;1m┐\033[0m";
+    result += "┐";
+  } else {
+    return " ";
   }
-  return " ";
+  result += "\033[0m";
+  return result;
 }
 
 std::string Corner::SetPrintChar() {
@@ -136,8 +152,8 @@ uint16_t Corner::NewState(const Message& m) {
   if (m.tag == MessageTag::T_FromEdge) {
     return ReduceSingle(state_, m.index1, m.edge_state);
   }
-  return Reduce2(state_, m.projected_state,
-                 std::vector<int>{m.index1, m.index2});
+  return Reduce(state_, m.projected_state,
+                std::vector<int>{m.index1, m.index2});
 }
 
 MessageResult Corner::Receive(const Message& message, ActionStack* stack,
@@ -151,7 +167,7 @@ MessageResult Corner::Receive(const Message& message, ActionStack* stack,
   state_ = new_state;
   stack->AddAction(Action(this));
   timestamp_ = stack->Timestamp();
-  if (new_state == 0) {
+  if (new_state == CONTRADICTION) {
     return MessageResult::CONTRADICTION;
   }
   const auto& new_messages = ConstructMessages();
@@ -166,5 +182,27 @@ void Corner::Undo() {
 }
 
 int Corner::Timestamp() { return timestamp_; }
+
+  std::string Corner::DebugPrint() const {
+    std::string result;
+    result += "C(";
+    int row;
+    int col;
+    if (edges_[0] == nullptr) {
+      row = 0;
+    } else {
+      row = edges_[0]->Row() + 1;
+    }
+    if (edges_[3] == nullptr) {
+      col = 0;
+    } else {
+      col = edges_[3]->Col() + 1;
+    }
+    result += std::to_string(row);
+    result += ",";
+    result += std::to_string(col);
+    result += ")";
+    return result;
+  }
 
 }  // namespace puzzle

@@ -99,7 +99,7 @@ TEST(Project, simple) {
   EXPECT_THAT(Project(a, std::vector<int>{0, 2}), 10);
 }
 
-TEST(Reduce2, simple) {
+TEST(Reduce, simple) {
   // m is 1 ==> 11:F 10:F 01: F 00:T
   // which means both bits should be 0.
   uint16_t m = 0b0001;
@@ -108,7 +108,7 @@ TEST(Reduce2, simple) {
   // n : 0000, 0011, 0101, 0110
   uint16_t n = (1 << 0) + (1 << 3) + (1 << 5) + (1 << 6);
   // Only the ones that fit into 0x0x should remain.
-  EXPECT_THAT(Reduce2(n, m, indexes), (1 << 0) + (1 << 5));
+  EXPECT_THAT(Reduce(n, m, indexes), (1 << 0) + (1 << 5));
 
   // m is 6 ==> 11:F 10:T 01:T 00:F
   // which means XOR of the bits should be 1.
@@ -118,7 +118,7 @@ TEST(Reduce2, simple) {
   // n : 0001, 0010, 1000, 1001
   n = (1 << 1) + (1 << 2) + (1 << 8) + (1 << 9);
   // Only the ones that fit into AxxA' should remain.
-  EXPECT_THAT(Reduce2(n, m, indexes), (1 << 1) + (1 << 8));
+  EXPECT_THAT(Reduce(n, m, indexes), (1 << 1) + (1 << 8));
 }
 
 TEST(ReduceSingle, simple) {

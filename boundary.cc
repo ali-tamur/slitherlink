@@ -29,7 +29,7 @@ MessageResult Boundary::Receive(const Message& m, ActionStack* action_stack,
   }
   // Exactly one edge is not set.
   for (auto* e : edges_) {
-    if (e->State() == 3) {
+    if (e->State() == EDGE_UNKNOWN) {
       message_stack->PushAll(
           {Message::ToEdge(this, (IAgent*)e, timestamp_, parity_)});
       break;

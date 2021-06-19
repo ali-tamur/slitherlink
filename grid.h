@@ -15,15 +15,13 @@
 #include "puz/face.h"
 #include "puz/loops.h"
 #include "puz/message.h"
+#include "puz/utils.h"
 
 namespace puzzle {
 
 class Face;
 class Edge;
 class Corner;
-
-int RowColToIndex(int rows, int cols, int r, int c);
-std::tuple<int, int> IndexToRowCol(int rows, int cols, int index);
 
 class Grid {
  public:

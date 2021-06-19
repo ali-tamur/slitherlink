@@ -1,10 +1,3 @@
-#  cc_library(
-#      name = "bool",
-#      srcs = ["bool.cc"],
-#      hdrs = ["bool.h"],
-#      deps = [],
-#  )
-
 cc_library(
     name = "utils",
     srcs = ["utils.cc"],
@@ -12,14 +5,141 @@ cc_library(
     deps = [],
 )
 
-#  cc_test(
-#      name = "bool_test",
-#      srcs = ["bool_test.cc"],
-#      deps = [
-#          ":bool",
-#          "//googletest:gtest_main",
-#      ],
-#  )
+cc_library(
+    name = "bits",
+    srcs = ["bits.cc"],
+    hdrs = ["bits.h"],
+    deps = [],
+)
+
+cc_test(
+    name = "bits_test",
+    srcs = ["bits_test.cc"],
+    deps = [
+        ":bits",
+        "//googletest:gtest_main",
+    ],
+)
+
+cc_library(
+    name = "edge",
+    srcs = ["edge.cc"],
+    hdrs = [
+        "corner.h",
+        "edge.h",
+        "face.h",
+    ],
+    deps = [
+        ":bits",
+        ":message",
+        ":utils",
+        "//absl/strings",
+    ],
+)
+
+cc_library(
+    name = "face",
+    srcs = ["face.cc"],
+    hdrs = [
+        "corner.h",
+        "edge.h",
+        "face.h",
+    ],
+    deps = [
+        ":bits",
+        ":message",
+        "//absl/strings",
+    ],
+)
+
+cc_test(
+    name = "face_test",
+    srcs = ["face_test.cc"],
+    deps = [
+        ":face",
+        "//googletest:gtest_main",
+    ],
+)
+
+cc_library(
+    name = "corner",
+    srcs = ["corner.cc"],
+    hdrs = [
+        "corner.h",
+        "edge.h",
+        "face.h",
+    ],
+    deps = [
+        ":bits",
+        ":message",
+        "//absl/strings",
+    ],
+)
+
+cc_test(
+    name = "corner_test",
+    srcs = ["corner_test.cc"],
+    deps = [
+        ":corner",
+        ":edge",
+        "//googletest:gtest_main",
+    ],
+)
+
+cc_library(
+    name = "message",
+    srcs = ["message.cc"],
+    hdrs = [
+        "edge.h",
+        "message.h",
+        "utils.h",
+    ],
+    deps = ["//absl/strings"],
+)
+
+cc_library(
+    name = "grid",
+    srcs = ["grid.cc"],
+    hdrs = [
+        "corner.h",
+        "edge.h",
+        "face.h",
+        "grid.h",
+        "loops.h",
+    ],
+    deps = [
+        ":bits",
+        ":boundary",
+        ":corner",
+        ":edge",
+        ":face",
+        ":loops",
+        ":message",
+        ":utils",
+        "//absl/strings",
+    ],
+)
+
+cc_test(
+    name = "grid_test",
+    srcs = ["grid_test.cc"],
+    deps = [
+        ":grid",
+        "//googletest:gtest_main",
+    ],
+)
+
+cc_binary(
+    name = "grid_main",
+    srcs = ["grid_main.cc"],
+    deps = [
+        ":corner",
+        ":edge",
+        ":face",
+        ":grid",
+        ":solver",
+    ],
+)
 
 cc_library(
     name = "loops",
@@ -43,60 +163,12 @@ cc_test(
 )
 
 cc_library(
-    name = "bits",
-    srcs = ["bits.cc"],
-    hdrs = ["bits.h"],
-    deps = [],
-)
-
-cc_test(
-    name = "bits_test",
-    srcs = ["bits_test.cc"],
-    deps = [
-        ":bits",
-        "//googletest:gtest_main",
-    ],
-)
-
-cc_library(
     name = "boundary",
     srcs = ["boundary.cc"],
     hdrs = ["boundary.h"],
     deps = [
         ":edge",
         ":message",
-    ],
-)
-
-cc_test(
-    name = "boundary_test",
-    srcs = ["boundary_test.cc"],
-    deps = [
-        ":boundary",
-        "//googletest:gtest_main",
-    ],
-)
-
-cc_library(
-    name = "grid",
-    srcs = ["grid.cc"],
-    hdrs = [
-        "corner.h",
-        "edge.h",
-        "face.h",
-        "grid.h",
-        "loops.h",
-    ],
-    deps = [
-        ":bits",
-        ":boundary",
-        ":corner",
-        ":edge",
-        ":face",
-        ":loops",
-        ":message",
-        ":utils",
-        "//absl/strings",
     ],
 )
 
@@ -128,99 +200,11 @@ cc_test(
     ],
 )
 
-cc_library(
-    name = "face",
-    srcs = ["face.cc"],
-    hdrs = [
-        "corner.h",
-        "edge.h",
-        "face.h",
-    ],
-    deps = [
-        ":bits",
-        ":message",
-        "//absl/strings",
-    ],
-)
-
-cc_library(
-    name = "corner",
-    srcs = ["corner.cc"],
-    hdrs = [
-        "corner.h",
-        "edge.h",
-        "face.h",
-    ],
-    deps = [
-        ":bits",
-        ":message",
-        "//absl/strings",
-    ],
-)
-
-cc_library(
-    name = "edge",
-    srcs = ["edge.cc"],
-    hdrs = [
-        "corner.h",
-        "edge.h",
-        "face.h",
-    ],
-    deps = [
-        ":bits",
-        ":message",
-        ":utils",
-        "//absl/strings",
-    ],
-)
-
 cc_test(
-    name = "face_test",
-    srcs = ["face_test.cc"],
+    name = "boundary_test",
+    srcs = ["boundary_test.cc"],
     deps = [
-        ":face",
+        ":boundary",
         "//googletest:gtest_main",
     ],
-)
-
-cc_test(
-    name = "corner_test",
-    srcs = ["corner_test.cc"],
-    deps = [
-        ":corner",
-        ":edge",
-        "//googletest:gtest_main",
-    ],
-)
-
-cc_test(
-    name = "grid_test",
-    srcs = ["grid_test.cc"],
-    deps = [
-        ":grid",
-        "//googletest:gtest_main",
-    ],
-)
-
-cc_binary(
-    name = "grid_main",
-    srcs = ["grid_main.cc"],
-    deps = [
-        ":corner",
-        ":edge",
-        ":face",
-        ":grid",
-        ":solver",
-    ],
-)
-
-cc_library(
-    name = "message",
-    srcs = ["message.cc"],
-    hdrs = [
-        "edge.h",
-        "message.h",
-        "utils.h",
-    ],
-    deps = ["//absl/strings"],
 )

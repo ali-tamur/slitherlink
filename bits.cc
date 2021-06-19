@@ -85,7 +85,7 @@ uint16_t ProjectSingle(uint16_t n, int index) {
 }
 
 // Reduce n with respect to m. indexes belong to n.
-uint16_t Reduce2(uint16_t n, uint16_t m, std::vector<int> n_indexes) {
+uint16_t Reduce(uint16_t n, uint16_t m, std::vector<int> n_indexes) {
   BitIterator b(n);
   uint16_t result = 0;
   while (b.HasNext()) {
@@ -95,12 +95,6 @@ uint16_t Reduce2(uint16_t n, uint16_t m, std::vector<int> n_indexes) {
     }
   }
   return result;
-}
-
-uint16_t Reduce(uint16_t n, std::vector<int> n_indexes, uint16_t m,
-                std::vector<int> m_indexes) {
-  uint16_t m_project = Project(m, m_indexes);
-  return Reduce2(n, m_project, n_indexes);
 }
 
 uint16_t ReduceSingle(uint16_t n, int index, bool equals_to) {

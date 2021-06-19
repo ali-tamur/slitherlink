@@ -43,6 +43,10 @@ class Node {
   std::vector<std::tuple<int, int>> stack_;
 };
 
+// Classical disjoin-union data structure with these additional properties:
+// *  Corresponds to a set of turned on edges.
+// *  Each union keeps the endpoints (that corresponds to corners)
+// *  It has the ability to undo.
 class Loops : public IAgent {
  public:
   void Init(int rows, int cols,
@@ -54,7 +58,12 @@ class Loops : public IAgent {
   void Undo() override;
 
   int Timestamp() override;
+
+  // This is not meaningful for Loops.
+  // (Its 'state' does not fit into uint16_t)
   uint16_t State() const override;
+
+  // For testing/debugging
   int NStrings() { return n_strings_; }
   std::string DebugPrint() const override { return "Loops"; }
 

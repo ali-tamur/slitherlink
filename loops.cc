@@ -91,10 +91,9 @@ MessageResult Loops::Receive(const Message& m, ActionStack* action_stack,
   auto* target = m.target;
   int timestamp = m.timestamp;
   int index = m.index1;
-  bool state = m.edge_state;
 
   // Don't care about turned off edges.
-  if (!state) {
+  if (!m.edge_state) {
     return MessageResult::OK;
   }
 

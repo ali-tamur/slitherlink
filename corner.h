@@ -21,50 +21,23 @@ class Corner : public IAgent {
   Corner() = default;
   ~Corner() override = default;
 
-  void SetFaces(Face* upright, Face* downright, Face* downleft, Face* upleft) {
-    upright_ = upright;
-    downright_ = downright;
-    downleft_ = downleft;
-    upleft_ = upleft;
-    print_char_ = SetPrintChar();
-  }
+  void SetFaces(Face* upright, Face* downright, Face* downleft, Face* upleft); 
 
-  void SetEdges(Edge* up, Edge* right, Edge* down, Edge* left) {
-    edges_ = {up, right, down, left};
-  }
+  void SetEdges(Edge* up, Edge* right, Edge* down, Edge* left);
 
   void Init();
 
   std::string PrettyPrint() const;
 
-  std::string DebugPrint() const override {
-    std::string result;
-    result += "C(";
-    int row;
-    int col;
-    if (edges_[0] == nullptr) {
-      row = 0;
-    } else {
-      row = edges_[0]->Row() + 1;
-    }
-    if (edges_[3] == nullptr) {
-      col = 0;
-    } else {
-      col = edges_[3]->Col() + 1;
-    }
-    result += std::to_string(row);
-    result += ",";
-    result += std::to_string(col);
-    result += ")";
-    return result;
-  }
+  std::string DebugPrint() const override;
 
   double Score() const {
-    if (state_ == 0) {
-      return 0;
-    }
-    return log2(__builtin_popcount(state_));
+  if (state_ == 0) {
+    return 0;
   }
+  return log2(__builtin_popcount(state_));
+}
+
   std::vector<Message> ConstructMessages();
 
   MessageResult Receive(const Message& signal, ActionStack* stack,
