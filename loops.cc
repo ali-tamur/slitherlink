@@ -74,7 +74,8 @@ std::tuple<int, Node*> Node::Root() {
   return std::make_tuple(n, now);
 }
 
-void Loops::Init(int rows, int cols, std::function<Edge*(int, int, Orientation)> f) {
+void Loops::Init(int rows, int cols,
+                 std::function<Edge*(int, int, Orientation)> f) {
   rows_ = rows;
   cols_ = cols;
   edge_finder_ = f;
@@ -155,9 +156,7 @@ void Loops::Undo() {
 }
 
 int Loops::Timestamp() { return timestamp_; }
-uint16_t Loops::State() const {
-  return -1;
-}
+uint16_t Loops::State() const { return -1; }
 
 std::tuple<int, int> Loops::EdgeToCornerIndexes(int row, int col,
                                                 Orientation o) {

@@ -25,8 +25,7 @@ void Grid::Init() {
   }
 }
 
-Grid::Grid(int rows, int cols) : rows_(rows), cols_(cols) { 
-
+Grid::Grid(int rows, int cols) : rows_(rows), cols_(cols) {
   for (int i = 0; i < rows_ * cols_; ++i) {
     faces_.push_back(Face());
   }
@@ -116,7 +115,8 @@ Grid::Grid(int rows, int cols) : rows_(rows), cols_(cols) {
     }
   }
 
-  loops_.Init(rows_, cols_, [&](int r, int c, Orientation o) {return &EdgeAt(r, c, o);});
+  loops_.Init(rows_, cols_,
+              [&](int r, int c, Orientation o) { return &EdgeAt(r, c, o); });
   for (auto& e : edges_) {
     e.SetLoops(&loops_);
   }
@@ -153,9 +153,9 @@ void Grid::InitBoundary(int row, int col, int bn) {
   int dn = 0;
   for (auto& v :
        std::vector<std::vector<Edge*>>{upright, downright, downleft, upleft}) {
-    boundaries_[bn+dn].Init(v);
+    boundaries_[bn + dn].Init(v);
     for (Edge* e : v) {
-      e->AddBoundary(&boundaries_[bn+dn]);
+      e->AddBoundary(&boundaries_[bn + dn]);
     }
     ++dn;
   }

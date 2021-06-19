@@ -128,10 +128,10 @@ TEST(ReduceSingle, simple) {
 }
 
 TEST(ProjectSingle, simple) {
-   uint16_t n = (1 << 2) + (1 << 6);
-   EXPECT_THAT(ProjectSingle(n, 0), 1);
-   EXPECT_THAT(ProjectSingle(n, 1), 2);
-   EXPECT_THAT(ProjectSingle(n, 2), 3);
+  uint16_t n = (1 << 2) + (1 << 6);
+  EXPECT_THAT(ProjectSingle(n, 0), 1);
+  EXPECT_THAT(ProjectSingle(n, 1), 2);
+  EXPECT_THAT(ProjectSingle(n, 2), 3);
 }
 
 }  // namespace puzzle

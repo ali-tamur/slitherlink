@@ -48,61 +48,61 @@ std::string Message::DebugPrint() const {
   if (tag == MessageTag::T_FaceAndCorner) {
     return DebugPrintFaceAndCorner();
   }
-  if (tag ==MessageTag::T_FromEdge) {
+  if (tag == MessageTag::T_FromEdge) {
     return DebugPrintFromEdge();
   }
-  if (tag ==MessageTag::T_ToEdge) {
+  if (tag == MessageTag::T_ToEdge) {
     return DebugPrintToEdge();
   }
   return "*";
 }
 
-  std::string Message::DebugPrintFaceAndCorner() const {
-    std::string result;
-    result += "FC(Source=";
-    result += source == nullptr ? "nullptr" : source->DebugPrint();
-    result += ", Target=";
-    result += target == nullptr ? "nullptr" : target->DebugPrint();
-    result += ", Time=";
-    result += std::to_string(timestamp);
-    result += ", Projection=";
-    result += std::to_string(projected_state);
-    result += ", Indexes=";
-    result += std::to_string(index1);
-    result += ",";
-    result += std::to_string(index2);
-    result += ")";
-    return result;
-  }
+std::string Message::DebugPrintFaceAndCorner() const {
+  std::string result;
+  result += "FC(Source=";
+  result += source == nullptr ? "nullptr" : source->DebugPrint();
+  result += ", Target=";
+  result += target == nullptr ? "nullptr" : target->DebugPrint();
+  result += ", Time=";
+  result += std::to_string(timestamp);
+  result += ", Projection=";
+  result += std::to_string(projected_state);
+  result += ", Indexes=";
+  result += std::to_string(index1);
+  result += ",";
+  result += std::to_string(index2);
+  result += ")";
+  return result;
+}
 
-  std::string Message::DebugPrintToEdge() const {
-    std::string result;
-    result += "To_E(Source=";
-    result += source == nullptr ? "nullptr" : source->DebugPrint();
-    result += ", Target=";
-    result += target == nullptr ? "nullptr" : target->DebugPrint();
-    result += ", Time=";
-    result += std::to_string(timestamp);
-    result += ", State=";
-    result += edge_state ? "T" : "F";
-    result += ")";
-    return result;
-  }
+std::string Message::DebugPrintToEdge() const {
+  std::string result;
+  result += "To_E(Source=";
+  result += source == nullptr ? "nullptr" : source->DebugPrint();
+  result += ", Target=";
+  result += target == nullptr ? "nullptr" : target->DebugPrint();
+  result += ", Time=";
+  result += std::to_string(timestamp);
+  result += ", State=";
+  result += edge_state ? "T" : "F";
+  result += ")";
+  return result;
+}
 
-  std::string Message::DebugPrintFromEdge() const {
-    std::string result;
-    result += "Fr_Edge(Source=";
-    result += source == nullptr ? "nullptr" : source->DebugPrint();
-    result += ", Target=";
-    result += target == nullptr ? "nullptr" : target->DebugPrint();
-    result += ", Time=";
-    result += std::to_string(timestamp);
-    result += ", Index=";
-    result += std::to_string(index1);
-    result += ", State=";
-    result += edge_state ? "T" : "F";
-    result += ")";
-    return result;
-  }
+std::string Message::DebugPrintFromEdge() const {
+  std::string result;
+  result += "Fr_Edge(Source=";
+  result += source == nullptr ? "nullptr" : source->DebugPrint();
+  result += ", Target=";
+  result += target == nullptr ? "nullptr" : target->DebugPrint();
+  result += ", Time=";
+  result += std::to_string(timestamp);
+  result += ", Index=";
+  result += std::to_string(index1);
+  result += ", State=";
+  result += edge_state ? "T" : "F";
+  result += ")";
+  return result;
+}
 
 }  // namespace puzzle

@@ -40,8 +40,6 @@ class Grid {
 
   Edge& EdgeAt(int row, int col, Orientation o);
 
-
-
   std::vector<Edge>& Edges() { return edges_; };
   std::vector<Face>& Faces() { return faces_; };
   std::vector<Corner>& Corners() { return corners_; };

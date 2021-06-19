@@ -9,8 +9,8 @@
 #include <vector>
 
 #include "absl/strings/str_cat.h"
-#include "puz/message.h"
 #include "puz/edge.h"
+#include "puz/message.h"
 
 namespace puzzle {
 
@@ -59,7 +59,7 @@ class Face : public IAgent {
   uint16_t State() const override;
   int Timestamp() override;
   std::vector<Message> ConstructMessages();
-  const std::vector<Edge*>& Edges() const {return edges_; }
+  const std::vector<Edge*>& Edges() const { return edges_; }
 
   void Undo() override;
   MessageResult Receive(const Message& signal, ActionStack* stack,
@@ -68,8 +68,10 @@ class Face : public IAgent {
   uint16_t NewState(const Message& message);
 
   // Testing purposes
-  std::vector<Corner*> Corners() {return std::vector<Corner*>{upright_, downright_, downleft_, upleft_};};
-  std::vector<Edge*>& Edges() {return edges_;}
+  std::vector<Corner*> Corners() {
+    return std::vector<Corner*>{upright_, downright_, downleft_, upleft_};
+  };
+  std::vector<Edge*>& Edges() { return edges_; }
 
  private:
   int value_ = -1;

@@ -24,7 +24,7 @@ class ManualAgent : public IAgent {
   ManualAgent() = default;
   ~ManualAgent() = default;
 
-  void SetDebugPrint(std::string debug_string) {debug_string_ = debug_string;}
+  void SetDebugPrint(std::string debug_string) { debug_string_ = debug_string; }
 
   MessageResult Receive(const Message& m, ActionStack* as,
                         MessageStack* ms) override {
@@ -34,36 +34,34 @@ class ManualAgent : public IAgent {
   int Timestamp() override { return 0; }
   uint16_t State() const override { return 0; }
 
-
   static ManualAgent* Initial() {
     static ManualAgent instance_for_initial = ManualAgent();
-    instance_for_initial.SetDebugPrint("Initial"); 
+    instance_for_initial.SetDebugPrint("Initial");
     return &instance_for_initial;
   }
 
   static ManualAgent* Assume() {
     static ManualAgent instance_for_assume = ManualAgent();
-    instance_for_assume.SetDebugPrint("Assume"); 
+    instance_for_assume.SetDebugPrint("Assume");
     return &instance_for_assume;
   }
 
   static ManualAgent* Therefore() {
     static ManualAgent instance_for_therefore = ManualAgent();
-    instance_for_therefore.SetDebugPrint("Therefore"); 
+    instance_for_therefore.SetDebugPrint("Therefore");
     return &instance_for_therefore;
   }
 
   static ManualAgent* ThreeThree() {
     static ManualAgent instance_for_threethree = ManualAgent();
-    instance_for_threethree.SetDebugPrint("ThreeThree"); 
+    instance_for_threethree.SetDebugPrint("ThreeThree");
     return &instance_for_threethree;
   }
 
-  std::string DebugPrint() const override { return debug_string_;}
+  std::string DebugPrint() const override { return debug_string_; }
 
  private:
   std::string debug_string_;
-  
 };
 
 void InitialThreeThree(Grid* g, MessageStack* ms);

@@ -65,16 +65,18 @@ std::vector<Message> Edge::ConstructMessages() {
   }
   for (auto& tup : corners_) {
     Corner* corner = std::get<0>(tup);
-    assert ((corner != nullptr) && "NULL COR");
+    assert((corner != nullptr) && "NULL COR");
     auto index = std::get<1>(tup);
     r.push_back(Message::FromEdge(this, corner, timestamp_, index, bool_state));
   }
 
   for (auto* b : boundaries_) {
-    r.push_back(Message::FromEdge(this, (IAgent*)b, timestamp_, -389, bool_state));
+    r.push_back(
+        Message::FromEdge(this, (IAgent*)b, timestamp_, -389, bool_state));
   }
 
-  r.push_back(Message::FromEdge(this, (IAgent*)loops_, timestamp_, -499, bool_state));
+  r.push_back(
+      Message::FromEdge(this, (IAgent*)loops_, timestamp_, -499, bool_state));
 
   return r;
 }

@@ -17,7 +17,10 @@ namespace puzzle {
 class Node {
  public:
   Node(int endpoint)
-      : endpoint1_(endpoint), endpoint2_(endpoint), my_index_(endpoint), parent_(nullptr) {}
+      : endpoint1_(endpoint),
+        endpoint2_(endpoint),
+        my_index_(endpoint),
+        parent_(nullptr) {}
 
   // Returns the node that made a link.
   // Returns nullptr if the merge makes a loop.
@@ -42,9 +45,8 @@ class Node {
 
 class Loops : public IAgent {
  public:
-
   void Init(int rows, int cols,
-        std::function<Edge*(int, int, Orientation)> edge_finder);
+            std::function<Edge*(int, int, Orientation)> edge_finder);
 
   MessageResult Receive(const Message& message, ActionStack* action_stack,
                         MessageStack* message_stack) override;
@@ -54,7 +56,7 @@ class Loops : public IAgent {
   int Timestamp() override;
   uint16_t State() const override;
   int NStrings() { return n_strings_; }
-  std::string DebugPrint() const override { return "Loops";}
+  std::string DebugPrint() const override { return "Loops"; }
 
  private:
   std::tuple<int, int> EdgeToCornerIndexes(int row, int col, Orientation o);

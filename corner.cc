@@ -47,94 +47,97 @@ std::vector<Message> Corner::ConstructMessages() {
   if (upright_ != nullptr) {
     uint16_t projected_state = Project(state_, std::vector<int>{0, 1});
     if (projected_state != 15) {
-      r.push_back(Message::FaceAndCorner(this, upright_, timestamp_, projected_state, 3, 2));
+      r.push_back(Message::FaceAndCorner(this, upright_, timestamp_,
+                                         projected_state, 3, 2));
     }
   }
   if (downright_ != nullptr) {
     uint16_t projected_state = Project(state_, std::vector<int>{1, 2});
     if (projected_state != 15) {
-    r.push_back(Message::FaceAndCorner(this, downright_, timestamp_,
-				projected_state, 0, 3));
+      r.push_back(Message::FaceAndCorner(this, downright_, timestamp_,
+                                         projected_state, 0, 3));
     }
   }
   if (downleft_ != nullptr) {
     uint16_t projected_state = Project(state_, std::vector<int>{2, 3});
     if (projected_state != 15) {
-    r.push_back(Message::FaceAndCorner(this, downleft_, timestamp_,
-				projected_state, 1, 0));
+      r.push_back(Message::FaceAndCorner(this, downleft_, timestamp_,
+                                         projected_state, 1, 0));
     }
   }
   if (upleft_ != nullptr) {
     uint16_t projected_state = Project(state_, std::vector<int>{0, 3});
     if (projected_state != 15) {
-    r.push_back(Message::FaceAndCorner(this, upleft_, timestamp_,
-				projected_state, 1, 2));
+      r.push_back(Message::FaceAndCorner(this, upleft_, timestamp_,
+                                         projected_state, 1, 2));
     }
   }
   return r;
 }
 
-
-  std::string Corner::PrettyPrint() const { 
-    int n = __builtin_popcount(state_);
-    if (n != 1) {
-      return " ";
-   }
-   int i = __builtin_ctz(state_);
-   if (i == 3) {
-     return "\033[93;1m└\033[0m";
-   } else if (i == 5) {
-     return "\033[93;1m│\033[0m";
-   } else if (i == 6) {
-     return "\033[93;1m┌\033[0m";
-   } else if (i == 9) {
-     return "\033[93;1m┘\033[0m";
-   } else if (i == 10) {
-     return "\033[93;1m─\033[0m";
-   } else if (i == 12) {
-     return "\033[93;1m┐\033[0m";
-   }
-      return " ";
+std::string Corner::PrettyPrint() const {
+  int n = __builtin_popcount(state_);
+  if (n != 1) {
+    return " ";
   }
+  int i = __builtin_ctz(state_);
+  if (i == 3) {
+    return "\033[93;1m└\033[0m";
+  } else if (i == 5) {
+    return "\033[93;1m│\033[0m";
+  } else if (i == 6) {
+    return "\033[93;1m┌\033[0m";
+  } else if (i == 9) {
+    return "\033[93;1m┘\033[0m";
+  } else if (i == 10) {
+    return "\033[93;1m─\033[0m";
+  } else if (i == 12) {
+    return "\033[93;1m┐\033[0m";
+  }
+  return " ";
+}
 
 std::string Corner::SetPrintChar() {
-    if (upleft_ != nullptr && downleft_ != nullptr && upright_ != nullptr &&
-        downright_ != nullptr) {
-      return "┼";
-    }
-    if (upleft_ == nullptr && downleft_ == nullptr && upright_ == nullptr) {
-      return "┌";
-    }
-    if (upleft_ == nullptr && downleft_ == nullptr && downright_ == nullptr) {
-      return "└";
-    }
-    if (upleft_ == nullptr && upright_ == nullptr && downright_ == nullptr) {
-      return "┐";
-    }
-    if (upright_ == nullptr && downright_ == nullptr && downleft_ == nullptr) {
-      return "┘";
-    }
-    if (upleft_ == nullptr && upright_ == nullptr) {
-      return "┬";
-    }
-    if (downleft_ == nullptr && downright_ == nullptr) {
-      return "┴";
-    }
-    if (upleft_ == nullptr && downleft_ == nullptr) {
-      return "├";
-    }
-    if (upright_ == nullptr && downright_ == nullptr) {
-      return "┤";
-    }
-    return "?";
+  if (upleft_ != nullptr && downleft_ != nullptr && upright_ != nullptr &&
+      downright_ != nullptr) {
+    return "┼";
   }
+  if (upleft_ == nullptr && downleft_ == nullptr && upright_ == nullptr) {
+    return "┌";
+  }
+  if (upleft_ == nullptr && downleft_ == nullptr && downright_ == nullptr) {
+    return "└";
+  }
+  if (upleft_ == nullptr && upright_ == nullptr && downright_ == nullptr) {
+    return "┐";
+  }
+  if (upright_ == nullptr && downright_ == nullptr && downleft_ == nullptr) {
+    return "┘";
+  }
+  if (upleft_ == nullptr && upright_ == nullptr) {
+    return "┬";
+  }
+  if (downleft_ == nullptr && downright_ == nullptr) {
+    return "┴";
+  }
+  if (upleft_ == nullptr && downleft_ == nullptr) {
+    return "├";
+  }
+  if (upright_ == nullptr && downright_ == nullptr) {
+    return "┤";
+  }
+  return "?";
+}
 
 uint16_t Corner::NewState(const Message& m) {
-  assert((m.tag == MessageTag::T_FaceAndCorner || m.tag == MessageTag::T_FromEdge) && "Wrong MessageType");
+  assert((m.tag == MessageTag::T_FaceAndCorner ||
+          m.tag == MessageTag::T_FromEdge) &&
+         "Wrong MessageType");
   if (m.tag == MessageTag::T_FromEdge) {
     return ReduceSingle(state_, m.index1, m.edge_state);
   }
-  return Reduce2(state_, m.projected_state, std::vector<int>{m.index1, m.index2});
+  return Reduce2(state_, m.projected_state,
+                 std::vector<int>{m.index1, m.index2});
 }
 
 MessageResult Corner::Receive(const Message& message, ActionStack* stack,

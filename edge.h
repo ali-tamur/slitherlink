@@ -35,7 +35,7 @@ class Edge : public IAgent {
     corners_ = corners;
   }
   void AddBoundary(Boundary* b) { boundaries_.push_back(b); }
-  void SetLoops(Loops* l) {loops_ = l; }
+  void SetLoops(Loops* l) { loops_ = l; }
 
   int Row() const { return row_; }
   int Col() const { return col_; }
@@ -53,8 +53,8 @@ class Edge : public IAgent {
   std::vector<Message> ConstructMessages();
 
   // For testing purposes
-  std::vector<std::tuple<Face*, int>>& Faces() {return faces_;}
-  std::vector<std::tuple<Corner*, int>>& Corners() {return corners_;}
+  std::vector<std::tuple<Face*, int>>& Faces() { return faces_; }
+  std::vector<std::tuple<Corner*, int>>& Corners() { return corners_; }
   void SetState(uint16_t s) { state_ = s; }
 
  private:

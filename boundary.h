@@ -25,7 +25,7 @@ class Boundary : public IAgent {
   uint16_t State() const override;
 
   std::string DebugPrint() const override;
-  std::vector<Edge*>& Edges() {return edges_;}
+  std::vector<Edge*>& Edges() { return edges_; }
 
  private:
   bool parity_ = false;

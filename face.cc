@@ -73,38 +73,39 @@ std::vector<Message> Face::ConstructMessages() {
   {
     uint16_t projected_state = Project(state_, std::vector<int>{0, 1});
     if (projected_state != 15) {
-      r.push_back(
-          Message::FaceAndCorner(this, upright_, timestamp_, projected_state, 3, 2));
+      r.push_back(Message::FaceAndCorner(this, upright_, timestamp_,
+                                         projected_state, 3, 2));
     }
   }
   {
     uint16_t projected_state = Project(state_, std::vector<int>{1, 2});
     if (projected_state != 15) {
-      r.push_back(
-          Message::FaceAndCorner(this, downright_, timestamp_, projected_state, 0, 3));
+      r.push_back(Message::FaceAndCorner(this, downright_, timestamp_,
+                                         projected_state, 0, 3));
     }
   }
   {
     uint16_t projected_state = Project(state_, std::vector<int>{2, 3});
     if (projected_state != 15) {
-      r.push_back(
-          Message::FaceAndCorner(this, downleft_, timestamp_, projected_state, 1, 0));
+      r.push_back(Message::FaceAndCorner(this, downleft_, timestamp_,
+                                         projected_state, 1, 0));
     }
   }
   {
     uint16_t projected_state = Project(state_, std::vector<int>{0, 3});
     if (projected_state != 15) {
-      r.push_back(
-          Message::FaceAndCorner(this, upleft_, timestamp_, projected_state, 1, 2));
+      r.push_back(Message::FaceAndCorner(this, upleft_, timestamp_,
+                                         projected_state, 1, 2));
     }
   }
   return r;
 }
 
 uint16_t Face::NewState(const Message& m) {
-  assert((m.tag == MessageTag::T_FaceAndCorner || m.tag == MessageTag::T_FromEdge) &&
+  assert((m.tag == MessageTag::T_FaceAndCorner ||
+          m.tag == MessageTag::T_FromEdge) &&
          "Wrong MessageType");
-  if (m.tag == MessageTag::T_FromEdge){
+  if (m.tag == MessageTag::T_FromEdge) {
     return ReduceSingle(state_, m.index1, m.edge_state);
   }
   {

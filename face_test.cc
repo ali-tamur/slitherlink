@@ -31,7 +31,8 @@ TEST(Face, Init) {
     f.SetValue(2);
     f.Init();
     EXPECT_TRUE(f.HasValue());
-    EXPECT_THAT(f.State(), (1 << 3) + (1 << 5) + (1 << 6) + (1 << 9) + (1 << 10) + (1 << 12));
+    EXPECT_THAT(f.State(), (1 << 3) + (1 << 5) + (1 << 6) + (1 << 9) +
+                               (1 << 10) + (1 << 12));
   }
   {
     Face f;
@@ -52,7 +53,6 @@ TEST(Face, ConstructMessages) {
     {
       const auto& message = messages[0];
       EXPECT_THAT(message.tag, MessageTag::T_FaceAndCorner);
-
 
       EXPECT_THAT(message.source, &f);
       EXPECT_THAT(message.projected_state, 2 + 4 + 8);
@@ -83,7 +83,7 @@ TEST(Face, ConstructMessages) {
       EXPECT_THAT(message.index1, 1);
       EXPECT_THAT(message.index2, 2);
     }
-    EXPECT_EQ(1,1);
+    EXPECT_EQ(1, 1);
   }
 }
 
@@ -93,52 +93,52 @@ TEST(Face, NewState) {
   f.Init();
   EXPECT_THAT(f.State(), 5736);
   {
-    Message m = Message::FromEdge( nullptr, &f, 0, 0, false);
+    Message m = Message::FromEdge(nullptr, &f, 0, 0, false);
     uint16_t new_state = f.NewState(m);
     EXPECT_THAT(new_state, 64 + 1024 + 4096);
   }
   {
-    Message m = Message::FromEdge( nullptr, &f, 0, 0, true);
+    Message m = Message::FromEdge(nullptr, &f, 0, 0, true);
     uint16_t new_state = f.NewState(m);
     EXPECT_THAT(new_state, 8 + 32 + 512);
   }
   {
-    Message m = Message::FromEdge( nullptr, &f, 0, 1, false);
+    Message m = Message::FromEdge(nullptr, &f, 0, 1, false);
     uint16_t new_state = f.NewState(m);
     EXPECT_THAT(new_state, 32 + 512 + 4096);
   }
   {
-    Message m = Message::FromEdge( nullptr, &f, 0, 1, true);
+    Message m = Message::FromEdge(nullptr, &f, 0, 1, true);
     uint16_t new_state = f.NewState(m);
     EXPECT_THAT(new_state, 8 + 64 + 1024);
   }
   {
-    Message m = Message::FromEdge( nullptr, &f, 0, 2, false);
+    Message m = Message::FromEdge(nullptr, &f, 0, 2, false);
     uint16_t new_state = f.NewState(m);
     EXPECT_THAT(new_state, 8 + 512 + 1024);
   }
   {
-    Message m = Message::FromEdge( nullptr, &f, 0, 2, true);
+    Message m = Message::FromEdge(nullptr, &f, 0, 2, true);
     uint16_t new_state = f.NewState(m);
     EXPECT_THAT(new_state, 32 + 64 + 4096);
   }
   {
-    Message m = Message::FromEdge( nullptr, &f, 0, 3, false);
+    Message m = Message::FromEdge(nullptr, &f, 0, 3, false);
     uint16_t new_state = f.NewState(m);
     EXPECT_THAT(new_state, 8 + 32 + 64);
   }
   {
-    Message m = Message::FromEdge( nullptr, &f, 0, 3, true);
+    Message m = Message::FromEdge(nullptr, &f, 0, 3, true);
     uint16_t new_state = f.NewState(m);
     EXPECT_THAT(new_state, 512 + 1024 + 4096);
   }
   {
-    Message m = Message::FaceAndCorner( nullptr, &f, 0, 6, 0, 1);
+    Message m = Message::FaceAndCorner(nullptr, &f, 0, 6, 0, 1);
     uint16_t new_state = f.NewState(m);
     EXPECT_THAT(new_state, 32 + 64 + 512 + 1024);
   }
   {
-    Message m = Message::FaceAndCorner( nullptr, &f, 0, 5, 1, 2);
+    Message m = Message::FaceAndCorner(nullptr, &f, 0, 5, 1, 2);
     uint16_t new_state = f.NewState(m);
     EXPECT_THAT(new_state, 32 + 512 + 4096);
   }

@@ -15,9 +15,7 @@ class IAgent;
 
 enum class MessageResult : uint8_t { OK, CONTRADICTION, SOLUTION };
 
-enum class MessageTag {
-  T_Uninit, T_FaceAndCorner, T_ToEdge, T_FromEdge
-};
+enum class MessageTag { T_Uninit, T_FaceAndCorner, T_ToEdge, T_FromEdge };
 
 struct Message {
   IAgent* source = nullptr;
@@ -30,11 +28,12 @@ struct Message {
   MessageTag tag = MessageTag::T_Uninit;
 
   std::string DebugPrint() const;
-  static Message FaceAndCorner(IAgent* source, IAgent* target, int timestamp, uint16_t project_state, int index1, int index2) {
+  static Message FaceAndCorner(IAgent* source, IAgent* target, int timestamp,
+                               uint16_t project_state, int index1, int index2) {
     Message r;
     r.tag = MessageTag::T_FaceAndCorner;
     r.source = source;
-    r.target= target;
+    r.target = target;
     r.timestamp = timestamp;
     r.projected_state = project_state;
     r.index1 = index1;
@@ -42,27 +41,28 @@ struct Message {
     return r;
   }
 
-  static Message ToEdge(IAgent* source, IAgent* target, int timestamp, bool edge_state) {
+  static Message ToEdge(IAgent* source, IAgent* target, int timestamp,
+                        bool edge_state) {
     Message r;
     r.tag = MessageTag::T_ToEdge;
     r.source = source;
-    r.target= target;
+    r.target = target;
     r.timestamp = timestamp;
     r.edge_state = edge_state;
     return r;
   }
 
-  static Message FromEdge(IAgent* source, IAgent* target, int timestamp, int index, bool edge_state) {
+  static Message FromEdge(IAgent* source, IAgent* target, int timestamp,
+                          int index, bool edge_state) {
     Message r;
     r.tag = MessageTag::T_FromEdge;
     r.source = source;
-    r.target= target;
+    r.target = target;
     r.timestamp = timestamp;
     r.index1 = index;
     r.edge_state = edge_state;
     return r;
   }
-
 
  private:
   std::string DebugPrintFaceAndCorner() const;
@@ -82,7 +82,7 @@ class MessageStack {
 
   void PushAll(const std::vector<Message>& s);
   void Push(Message m) { messages_.push_back(m); }
-  void Clear() {messages_.clear();}
+  void Clear() { messages_.clear(); }
 
  private:
   std::vector<Message> messages_;
@@ -122,7 +122,7 @@ class ActionStack {
   // "null" assumption, with nullptr as the edge.
   Action Undo();
 
-  bool IsEmpty() {return actions_.empty(); }
+  bool IsEmpty() { return actions_.empty(); }
 
  private:
   std::vector<Action> actions_;
@@ -138,7 +138,9 @@ class IAgent {
   virtual void Undo() = 0;
   virtual int Timestamp() = 0;
   virtual uint16_t State() const = 0;
-  virtual std::string DebugPrint() const { return "DEBUG_STRING NOT IMPLEMENTED";}
+  virtual std::string DebugPrint() const {
+    return "DEBUG_STRING NOT IMPLEMENTED";
+  }
 };
 
 }  // namespace puzzle

@@ -9,8 +9,8 @@
 #include <vector>
 
 #include "absl/strings/str_cat.h"
-#include "puz/message.h"
 #include "puz/edge.h"
+#include "puz/message.h"
 
 namespace puzzle {
 
@@ -37,7 +37,7 @@ class Corner : public IAgent {
 
   std::string PrettyPrint() const;
 
-  std::string DebugPrint() const override { 
+  std::string DebugPrint() const override {
     std::string result;
     result += "C(";
     int row;
@@ -45,9 +45,9 @@ class Corner : public IAgent {
     if (edges_[0] == nullptr) {
       row = 0;
     } else {
-      row = edges_[0]->Row()+1;
+      row = edges_[0]->Row() + 1;
     }
-    if(edges_[3] == nullptr) {
+    if (edges_[3] == nullptr) {
       col = 0;
     } else {
       col = edges_[3]->Col() + 1;
@@ -73,10 +73,11 @@ class Corner : public IAgent {
   int Timestamp() override;
   uint16_t State() const override;
 
-
   // Testing purposes
-  std::vector<Face*> Faces() {return std::vector<Face*>{upright_, downright_, downleft_, upleft_};};
-  std::vector<Edge*>& Edges() {return edges_;}
+  std::vector<Face*> Faces() {
+    return std::vector<Face*>{upright_, downright_, downleft_, upleft_};
+  };
+  std::vector<Edge*>& Edges() { return edges_; }
 
  private:
   uint16_t NewState(const Message& message);

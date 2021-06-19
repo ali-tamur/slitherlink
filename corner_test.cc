@@ -2,7 +2,6 @@
 
 #include "gmock/gmock.h"
 #include "gtest/gtest.h"
-
 #include "puz/edge.h"
 
 namespace puzzle {
@@ -23,7 +22,7 @@ namespace puzzle {
 //     EXPECT_THAT(c.State(), 1 + 8);
 //   }
 // }
-// 
+//
 // TEST(Corner, ConstructMessages) {
 //   {
 //     Corner c;
@@ -68,7 +67,7 @@ namespace puzzle {
 //     EXPECT_EQ(1,1);
 //   }
 // }
-// 
+//
 // TEST(Face, NewState) {
 //   Face f;
 //   f.SetValue(2);
@@ -125,5 +124,5 @@ namespace puzzle {
 //     EXPECT_THAT(new_state, 32 + 512 + 4096);
 //   }
 // }
-// 
+//
 }  // namespace puzzle

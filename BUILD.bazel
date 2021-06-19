@@ -1,4 +1,3 @@
-
 #  cc_library(
 #      name = "bool",
 #      srcs = ["bool.cc"],
@@ -93,8 +92,8 @@ cc_library(
         ":boundary",
         ":corner",
         ":edge",
-        ":loops",
         ":face",
+        ":loops",
         ":message",
         ":utils",
         "//absl/strings",
@@ -123,8 +122,10 @@ cc_library(
 cc_test(
     name = "solver_test",
     srcs = ["solver_test.cc"],
-    deps = [ ":solver", 
-        "//googletest:gtest_main"],
+    deps = [
+        ":solver",
+        "//googletest:gtest_main",
+    ],
 )
 
 cc_library(
@@ -132,8 +133,8 @@ cc_library(
     srcs = ["face.cc"],
     hdrs = [
         "corner.h",
-        "face.h",
         "edge.h",
+        "face.h",
     ],
     deps = [
         ":bits",
@@ -147,8 +148,8 @@ cc_library(
     srcs = ["corner.cc"],
     hdrs = [
         "corner.h",
-        "face.h",
         "edge.h",
+        "face.h",
     ],
     deps = [
         ":bits",
@@ -217,8 +218,8 @@ cc_library(
     name = "message",
     srcs = ["message.cc"],
     hdrs = [
-        "message.h",
         "edge.h",
+        "message.h",
         "utils.h",
     ],
     deps = ["//absl/strings"],
