@@ -11,7 +11,7 @@
 #include "slitherlink/face.h"
 #include "slitherlink/message.h"
 
-namespace puzzle {
+namespace slitherlink {
 
 namespace {
 // Edge bits of a Corner's combination, in Corner's edge order.
@@ -205,4 +205,4 @@ std::string Corner::DebugPrint() const {
   return result;
 }
 
-}  // namespace puzzle
+}  // namespace slitherlink

@@ -1,5 +1,5 @@
-#ifndef PUZ_GRID_H_
-#define PUZ_GRID_H_
+#ifndef SLITHERLINK_GRID_H_
+#define SLITHERLINK_GRID_H_
 
 #include <memory>
 #include <optional>
@@ -17,7 +17,7 @@
 #include "slitherlink/message.h"
 #include "slitherlink/utils.h"
 
-namespace puzzle {
+namespace slitherlink {
 
 class Face;
 class Edge;
@@ -63,6 +63,6 @@ class Grid {
   Loops loops_;
 };
 
-}  // namespace puzzle
+}  // namespace slitherlink
 
-#endif /* PUZ_GRID_H_ */
+#endif /* SLITHERLINK_GRID_H_ */

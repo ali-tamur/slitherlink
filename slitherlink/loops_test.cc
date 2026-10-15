@@ -7,7 +7,7 @@
 #include "slitherlink/grid.h"
 #include "slitherlink/message.h"
 
-namespace puzzle {
+namespace slitherlink {
 
 class LoopsTest : public ::testing::Test {
  protected:
@@ -108,4 +108,4 @@ TEST_F(LoopsTest, abc) {
   EXPECT_THAT(l.NStrings(), 0);
 }
 
-}  // namespace puzzle
+}  // namespace slitherlink

@@ -1,5 +1,5 @@
-#ifndef PUZ_BITS_H_
-#define PUZ_BITS_H_
+#ifndef SLITHERLINK_BITS_H_
+#define SLITHERLINK_BITS_H_
 
 #include <assert.h>
 
@@ -8,7 +8,7 @@
 #include <string>
 #include <vector>
 
-namespace puzzle {
+namespace slitherlink {
 
 template <typename T>
 T SetBit(T input, int index) {
@@ -80,6 +80,6 @@ uint16_t Reduce(uint16_t n, uint16_t m, const std::vector<int>& n_indexes);
 
 uint16_t ReduceSingle(uint16_t n, int index, bool equals_to);
 
-}  // namespace puzzle
+}  // namespace slitherlink
 
-#endif /* PUZ_BITS_H_ */
+#endif /* SLITHERLINK_BITS_H_ */

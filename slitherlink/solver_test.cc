@@ -5,7 +5,7 @@
 #include "slitherlink/grid.h"
 
 // NOLINTBEGIN(readability-magic-numbers)
-namespace puzzle {
+namespace slitherlink {
 
 void InitGrid(Grid* g, std::string s) {
   for (int i = 0; i < s.size(); ++i) {
@@ -111,5 +111,5 @@ TEST(Solver, f) {
   EXPECT_THAT(solutions.size(), 1);
 }
 
-}  // namespace puzzle
+}  // namespace slitherlink
 // NOLINTEND(readability-magic-numbers)

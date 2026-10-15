@@ -14,7 +14,7 @@
 #include "slitherlink/message.h"
 #include "slitherlink/utils.h"
 
-namespace puzzle {
+namespace slitherlink {
 
 void Grid::Init() {
   for (auto& f : faces_) {
@@ -217,4 +217,4 @@ std::string Grid::DrawRow(int r) {
   return result;
 }
 
-}  // namespace puzzle
+}  // namespace slitherlink

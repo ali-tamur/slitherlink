@@ -3,7 +3,7 @@
 #include "gmock/gmock.h"
 #include "gtest/gtest.h"
 
-namespace puzzle {
+namespace slitherlink {
 
 class BoundaryTest : public ::testing::Test {
  protected:
@@ -68,4 +68,4 @@ TEST_F(BoundaryTest, simple) {
   EXPECT_THAT(SendMessage(&b, &e3, false), MessageResult::OK);
 }
 
-}  // namespace puzzle
+}  // namespace slitherlink

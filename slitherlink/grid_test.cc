@@ -6,7 +6,7 @@
 using ::testing::ElementsAre;
 using ::testing::UnorderedElementsAre;
 
-namespace puzzle {
+namespace slitherlink {
 
 TEST(Grid, mock) {
   Grid g(3, 3);
@@ -211,4 +211,4 @@ TEST(Grid, mock) {
   //  EXPECT_THAT(B00_UR.Edges(), UnorderedElementsAre(&H00
 }
 
-}  // namespace puzzle
+}  // namespace slitherlink

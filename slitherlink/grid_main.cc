@@ -1,14 +1,14 @@
 #include <exception>
 #include <iostream>
 
-#include "corner.h"
-#include "edge.h"
-#include "face.h"
-#include "grid.h"
+#include "slitherlink/corner.h"
+#include "slitherlink/edge.h"
+#include "slitherlink/face.h"
+#include "slitherlink/grid.h"
+#include "slitherlink/solver.h"
 #include "slitherlink/utils.h"
-#include "solver.h"
 
-namespace puzzle {
+namespace slitherlink {
 void SetEdge(Edge* e) {
   ActionStack a;
   MessageStack ms;
@@ -111,11 +111,11 @@ void Run() {
   std::cout << "NUMBER OF SOLUTIONS:" << solutions.size() << "\n";
 }
 
-}  // namespace puzzle
+}  // namespace slitherlink
 
 int main() {
   try {
-    puzzle::Run();
+    slitherlink::Run();
     return 0;
   } catch (const std::exception& e) {
     std::cerr << "error: " << e.what() << "\n";

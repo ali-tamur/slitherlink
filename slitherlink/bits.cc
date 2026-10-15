@@ -6,7 +6,7 @@
 #include <string>
 #include <vector>
 
-namespace puzzle {
+namespace slitherlink {
 
 //  N --> M
 //  n bits --> m bits <a1, a2, .., am>
@@ -108,4 +108,4 @@ uint16_t ReduceSingle(uint16_t n, int index, bool equals_to) {
   return result;
 }
 
-}  // namespace puzzle
+}  // namespace slitherlink

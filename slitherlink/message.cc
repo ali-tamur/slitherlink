@@ -5,7 +5,7 @@
 
 #include "slitherlink/edge.h"
 
-namespace puzzle {
+namespace slitherlink {
 
 bool MessageStack::IsEmpty() { return messages_.empty(); }
 
@@ -106,4 +106,4 @@ std::string Message::DebugPrintFromEdge() const {
   return result;
 }
 
-}  // namespace puzzle
+}  // namespace slitherlink

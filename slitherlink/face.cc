@@ -13,7 +13,7 @@
 #include "slitherlink/corner.h"
 #include "slitherlink/message.h"
 
-namespace puzzle {
+namespace slitherlink {
 
 void Face::SetValue(int val) {
   has_value_ = true;
@@ -125,4 +125,4 @@ MessageResult Face::Receive(const Message& message, ActionStack* stack, MessageS
   return MessageResult::OK;
 }
 
-}  // namespace puzzle
+}  // namespace slitherlink

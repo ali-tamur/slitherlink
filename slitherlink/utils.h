@@ -1,11 +1,11 @@
-#ifndef PUZ_UTILS_H_
-#define PUZ_UTILS_H_
+#ifndef SLITHERLINK_UTILS_H_
+#define SLITHERLINK_UTILS_H_
 
 #include <cstddef>
 #include <cstdint>
 #include <tuple>
 
-namespace puzzle {
+namespace slitherlink {
 
 enum Orientation : uint8_t { VERTICAL, HORIZONTAL };
 
@@ -26,6 +26,6 @@ constexpr std::size_t STATE_BITS = 16;
 // possible means the projection carries no information.
 constexpr uint16_t NO_INFORMATION = 0b1111;
 
-}  // namespace puzzle
+}  // namespace slitherlink
 
-#endif /* PUZ_UTILS_H_ */
+#endif /* SLITHERLINK_UTILS_H_ */

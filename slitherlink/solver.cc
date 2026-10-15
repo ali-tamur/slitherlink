@@ -11,7 +11,7 @@
 #include "slitherlink/grid.h"
 #include "slitherlink/message.h"
 
-namespace puzzle {
+namespace slitherlink {
 
 // Print every state change the solver makes (very verbose).
 constexpr bool TRACE_MESSAGES = false;
@@ -204,4 +204,4 @@ std::vector<Solution> Solve(Grid* g) {
   return solutions;
 }
 
-}  // namespace puzzle
+}  // namespace slitherlink

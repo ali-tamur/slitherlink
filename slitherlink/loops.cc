@@ -11,7 +11,7 @@
 #include "slitherlink/message.h"
 #include "slitherlink/utils.h"
 
-namespace puzzle {
+namespace slitherlink {
 
 Node* Node::Merge(Node* other) {
   auto tup1 = Root();
@@ -181,4 +181,4 @@ Edge* Loops::CommonEdge(int i1, int i2) {
   return edge_finder_(x1, std::min(y1, y2), Orientation::HORIZONTAL);
 }
 
-}  // namespace puzzle
+}  // namespace slitherlink

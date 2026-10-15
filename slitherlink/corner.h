@@ -1,5 +1,5 @@
-#ifndef PUZ_CORNER_H_
-#define PUZ_CORNER_H_
+#ifndef SLITHERLINK_CORNER_H_
+#define SLITHERLINK_CORNER_H_
 
 #include <memory>
 #include <optional>
@@ -13,7 +13,7 @@
 #include "slitherlink/edge.h"
 #include "slitherlink/message.h"
 
-namespace puzzle {
+namespace slitherlink {
 
 class Face;
 
@@ -70,6 +70,6 @@ class Corner : public IAgent {
   std::vector<Edge*> edges_;
 };
 
-}  // namespace puzzle
+}  // namespace slitherlink
 
-#endif /* PUZ_CORNER_H_ */
+#endif /* SLITHERLINK_CORNER_H_ */

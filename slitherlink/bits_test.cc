@@ -6,7 +6,7 @@
 #include "gtest/gtest.h"
 
 // NOLINTBEGIN(readability-magic-numbers)
-namespace puzzle {
+namespace slitherlink {
 TEST(BitOps, simple) {
   EXPECT_EQ(SetBit(0, 0), 1);
   EXPECT_EQ(SetBit(0, 1), 2);
@@ -134,5 +134,5 @@ TEST(ProjectSingle, simple) {
   EXPECT_THAT(ProjectSingle(n, 2), 3);
 }
 
-}  // namespace puzzle
+}  // namespace slitherlink
 // NOLINTEND(readability-magic-numbers)

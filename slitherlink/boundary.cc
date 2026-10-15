@@ -6,7 +6,7 @@
 #include "slitherlink/edge.h"
 #include "slitherlink/message.h"
 
-namespace puzzle {
+namespace slitherlink {
 
 void Boundary::Init(std::vector<Edge*> edges) { edges_ = std::move(std::move(edges)); }
 
@@ -60,4 +60,4 @@ std::string Boundary::DebugPrint() const {
   return result;
 }
 
-}  // namespace puzzle
+}  // namespace slitherlink

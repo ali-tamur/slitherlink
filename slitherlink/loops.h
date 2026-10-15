@@ -1,5 +1,5 @@
-#ifndef PUZ_LOOPS_H_
-#define PUZ_LOOPS_H_
+#ifndef SLITHERLINK_LOOPS_H_
+#define SLITHERLINK_LOOPS_H_
 
 #include <assert.h>
 
@@ -12,7 +12,7 @@
 #include "slitherlink/message.h"
 #include "slitherlink/utils.h"
 
-namespace puzzle {
+namespace slitherlink {
 
 class Node {
  public:
@@ -79,6 +79,6 @@ class Loops : public IAgent {
   std::vector<std::tuple<Node*, int>> stack_;
 };
 
-}  // namespace puzzle
+}  // namespace slitherlink
 
-#endif /* PUZ_LOOPS_H_ */
+#endif /* SLITHERLINK_LOOPS_H_ */

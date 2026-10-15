@@ -14,7 +14,7 @@
 #include "slitherlink/message.h"
 #include "slitherlink/utils.h"
 
-namespace puzzle {
+namespace slitherlink {
 
 namespace {
 // Boundary and Loops ignore the message index; these values only make the
@@ -112,4 +112,4 @@ void Edge::Undo() {
 }
 
 int Edge::Timestamp() { return timestamp_; }
-}  // namespace puzzle
+}  // namespace slitherlink

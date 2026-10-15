@@ -1,5 +1,5 @@
-#ifndef PUZ_SOLVER_H_
-#define PUZ_SOLVER_H_
+#ifndef SLITHERLINK_SOLVER_H_
+#define SLITHERLINK_SOLVER_H_
 
 #include <algorithm>
 #include <vector>
@@ -11,7 +11,7 @@
 #include "slitherlink/grid.h"
 #include "slitherlink/message.h"
 
-namespace puzzle {
+namespace slitherlink {
 
 using Solution = std::vector<std::tuple<int, int, Orientation>>;
 
@@ -69,6 +69,6 @@ Edge* MakeAssumption(Grid* g);
 
 std::vector<Solution> Solve(Grid* g);
 
-}  // namespace puzzle
+}  // namespace slitherlink
 
-#endif /* PUZ_SOLVER_H_ */
+#endif /* SLITHERLINK_SOLVER_H_ */

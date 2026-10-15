@@ -4,7 +4,7 @@
 #include "gtest/gtest.h"
 
 // NOLINTBEGIN(readability-magic-numbers)
-namespace puzzle {
+namespace slitherlink {
 
 TEST(Face, Init) {
   {
@@ -145,5 +145,5 @@ TEST(Face, NewState) {
   }
 }
 
-}  // namespace puzzle
+}  // namespace slitherlink
 // NOLINTEND(readability-magic-numbers)

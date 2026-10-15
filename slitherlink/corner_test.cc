@@ -4,7 +4,7 @@
 #include "gtest/gtest.h"
 #include "slitherlink/edge.h"
 
-namespace puzzle {
+namespace slitherlink {
 
 // TEST(Corner, Init) {
 //   {
@@ -125,4 +125,4 @@ namespace puzzle {
 //   }
 // }
 //
-}  // namespace puzzle
+}  // namespace slitherlink

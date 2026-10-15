@@ -1,5 +1,5 @@
-#ifndef PUZ_MESSAGE_H_
-#define PUZ_MESSAGE_H_
+#ifndef SLITHERLINK_MESSAGE_H_
+#define SLITHERLINK_MESSAGE_H_
 
 #include <memory>
 #include <optional>
@@ -8,7 +8,7 @@
 #include <variant>
 #include <vector>
 
-namespace puzzle {
+namespace slitherlink {
 
 class Edge;
 class IAgent;
@@ -139,6 +139,6 @@ class IAgent {
   virtual std::string DebugPrint() const { return "DEBUG_STRING NOT IMPLEMENTED"; }
 };
 
-}  // namespace puzzle
+}  // namespace slitherlink
 
-#endif /* PUZ_MESSAGE_H_ */
+#endif /* SLITHERLINK_MESSAGE_H_ */

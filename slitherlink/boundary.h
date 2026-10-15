@@ -1,12 +1,12 @@
-#ifndef PUZ_BOUNDARY_H_
-#define PUZ_BOUNDARY_H_
+#ifndef SLITHERLINK_BOUNDARY_H_
+#define SLITHERLINK_BOUNDARY_H_
 
 #include <vector>
 
 #include "slitherlink/edge.h"
 #include "slitherlink/message.h"
 
-namespace puzzle {
+namespace slitherlink {
 
 // Represents a rectangular region on the grid that contains one corner
 // and cuts through the edges. THe idea is that the loop has to cross
@@ -43,6 +43,6 @@ class Boundary : public IAgent {
   int timestamp_ = 0;
 };
 
-}  // namespace puzzle
+}  // namespace slitherlink
 
-#endif /* PUZ_BOUNDARY_H_ */
+#endif /* SLITHERLINK_BOUNDARY_H_ */
