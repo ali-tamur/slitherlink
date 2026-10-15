@@ -39,7 +39,7 @@ class Face : public IAgent {
     if (state_ == 0) {
       return 0;
     }
-    return log2(__builtin_ctz(state_));
+    return log2(__builtin_popcount(state_));
   }
 
   std::string PrettyPrint() const;

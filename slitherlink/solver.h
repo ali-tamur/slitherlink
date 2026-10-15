@@ -67,7 +67,11 @@ void InitialThreeThree(Grid* g, MessageStack* ms);
 
 Edge* MakeAssumption(Grid* g);
 
-std::vector<Solution> Solve(Grid* g);
+// Stop searching after this many solutions: two show the puzzle isn't unique.
+constexpr int MAX_SOLUTIONS = 2;
+
+// Returns up to max_solutions solutions of g.
+std::vector<Solution> Solve(Grid* g, int max_solutions = MAX_SOLUTIONS);
 
 }  // namespace slitherlink
 

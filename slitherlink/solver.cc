@@ -1,6 +1,7 @@
 #include "slitherlink/solver.h"
 
 #include <algorithm>
+#include <utility>
 #include <vector>
 
 #include "slitherlink/bits.h"
@@ -116,14 +117,14 @@ bool CheckSolution(Grid* g) {
 
 Edge* MakeAssumption(Grid* g) {
   Edge* best_edge = nullptr;
-  double best_score = -1;
+  double best_score = 0;
   for (auto& e : g->Edges()) {
     Edge* edge = &e;
     if (edge->State() != EDGE_UNKNOWN) {
       continue;
     }
     double now_score = edge->Score();
-    if (now_score > best_score || best_edge == nullptr) {
+    if (best_edge == nullptr || now_score < best_score) {
       best_score = now_score;
       best_edge = edge;
     }
@@ -131,7 +132,7 @@ Edge* MakeAssumption(Grid* g) {
   return best_edge;
 }
 
-std::vector<Solution> Solve(Grid* g) {
+std::vector<Solution> Solve(Grid* g, int max_solutions) {
   std::vector<Solution> solutions;
   ActionStack as;
   as.AddAction(Action(nullptr, true));
@@ -158,6 +159,9 @@ std::vector<Solution> Solve(Grid* g) {
       if (r == MessageResult::SOLUTION && CheckSolution(g)) {
         solutions.push_back(GetSolution(g));
         std::cout << g->PrettyPrint() << "\n";
+        if (std::cmp_greater_equal(solutions.size(), max_solutions)) {
+          return solutions;
+        }
       }
 
       Action last_assumption = as.Undo();

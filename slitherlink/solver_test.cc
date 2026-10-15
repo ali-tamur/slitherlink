@@ -32,8 +32,15 @@ TEST(Solver, a) {
 TEST(Solver, a2) {
   Grid g(2, 2);
   g.Init();
-  std::vector<Solution> solutions = Solve(&g);
+  std::vector<Solution> solutions = Solve(&g, /*max_solutions=*/100);
   EXPECT_THAT(solutions.size(), 9);
+}
+
+TEST(Solver, StopsAtMaxSolutions) {
+  Grid g(2, 2);
+  g.Init();
+  std::vector<Solution> solutions = Solve(&g);
+  EXPECT_THAT(solutions.size(), MAX_SOLUTIONS);
 }
 
 TEST(Solver, b) {

@@ -108,7 +108,13 @@ void Run() {
   g.Init();
 
   std::vector<Solution> solutions = Solve(&g);
-  std::cout << "NUMBER OF SOLUTIONS:" << solutions.size() << "\n";
+  if (solutions.empty()) {
+    std::cout << "NO SOLUTION\n";
+  } else if (solutions.size() == 1) {
+    std::cout << "UNIQUE SOLUTION\n";
+  } else {
+    std::cout << "MULTIPLE SOLUTIONS (stopped after " << solutions.size() << ")\n";
+  }
 }
 
 }  // namespace slitherlink
