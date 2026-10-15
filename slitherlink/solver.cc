@@ -16,7 +16,6 @@ namespace puzzle {
 using Solution = std::vector<std::tuple<int, int, Orientation>>;
 
 Solution GetSolution(Grid* g) {
-
   Solution result;
   for (auto& e : g->Edges()) {
     if (e.State() == EDGE_ON) {
@@ -82,10 +81,9 @@ void InitialThreeThree(Grid* g, MessageStack* ms) {
       if (!f2.HasValue() || f2.Value() != 3) {
         continue;
       }
-      std::vector<Edge*> edges = {
-          &g->EdgeAt(r, c, Orientation::HORIZONTAL),
-          &g->EdgeAt(r + 1, c, Orientation::HORIZONTAL),
-          &g->EdgeAt(r + 2, c, Orientation::HORIZONTAL)};
+      std::vector<Edge*> edges = {&g->EdgeAt(r, c, Orientation::HORIZONTAL),
+                                  &g->EdgeAt(r + 1, c, Orientation::HORIZONTAL),
+                                  &g->EdgeAt(r + 2, c, Orientation::HORIZONTAL)};
       for (auto* e : edges) {
         Message m = Message::ToEdge(ManualAgent::ThreeThree(), e, 0, true);
         ms->Push(m);
@@ -155,8 +153,7 @@ std::vector<Solution> Solve(Grid* g) {
       IAgent* target = m.target;
       int timestamp = m.timestamp;
       if (source != ManualAgent::Initial() && source != ManualAgent::Assume() &&
-          source != ManualAgent::Therefore() &&
-          source != ManualAgent::ThreeThree() &&
+          source != ManualAgent::Therefore() && source != ManualAgent::ThreeThree() &&
           timestamp < source->Timestamp()) {
         continue;
       }
@@ -167,8 +164,7 @@ std::vector<Solution> Solve(Grid* g) {
 
       if (target_old_state != target_new_state) {
         auto message_pp = m.DebugPrint();
-        std::cout << i << ":" << message_pp << " "
-                  << std::bitset<16>(target_old_state) << " ==> "
+        std::cout << i << ":" << message_pp << " " << std::bitset<16>(target_old_state) << " ==> "
                   << std::bitset<16>(target_new_state) << "\n";
       }
 
@@ -188,16 +184,14 @@ std::vector<Solution> Solve(Grid* g) {
       }
       ms.Clear();
       Edge* e = static_cast<Edge*>(last_assumption.agent);
-      Message proof_by_contradiction =
-          Message::ToEdge(ManualAgent::Therefore(), e, 0, false);
+      Message proof_by_contradiction = Message::ToEdge(ManualAgent::Therefore(), e, 0, false);
       ms.Push(proof_by_contradiction);
     }
     Edge* assumption_edge = MakeAssumption(g);
     if (assumption_edge == nullptr) {
       break;
     }
-    Message new_assumption =
-        Message::ToEdge(ManualAgent::Assume(), assumption_edge, 0, true);
+    Message new_assumption = Message::ToEdge(ManualAgent::Assume(), assumption_edge, 0, true);
     ms.Push(new_assumption);
     as.AddAction(Action(assumption_edge, true));
   }

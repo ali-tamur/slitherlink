@@ -21,7 +21,7 @@ class Corner : public IAgent {
   Corner() = default;
   ~Corner() override = default;
 
-  void SetFaces(Face* upright, Face* downright, Face* downleft, Face* upleft); 
+  void SetFaces(Face* upright, Face* downright, Face* downleft, Face* upleft);
 
   void SetEdges(Edge* up, Edge* right, Edge* down, Edge* left);
 
@@ -32,16 +32,15 @@ class Corner : public IAgent {
   std::string DebugPrint() const override;
 
   double Score() const {
-  if (state_ == 0) {
-    return 0;
+    if (state_ == 0) {
+      return 0;
+    }
+    return log2(__builtin_popcount(state_));
   }
-  return log2(__builtin_popcount(state_));
-}
 
   std::vector<Message> ConstructMessages();
 
-  MessageResult Receive(const Message& signal, ActionStack* stack,
-                        MessageStack*) override;
+  MessageResult Receive(const Message& signal, ActionStack* stack, MessageStack*) override;
   void Undo() override;
   int Timestamp() override;
   uint16_t State() const override;

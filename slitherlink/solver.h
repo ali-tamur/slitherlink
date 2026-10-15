@@ -26,8 +26,7 @@ class ManualAgent : public IAgent {
 
   void SetDebugPrint(std::string debug_string) { debug_string_ = debug_string; }
 
-  MessageResult Receive(const Message& m, ActionStack* as,
-                        MessageStack* ms) override {
+  MessageResult Receive(const Message& m, ActionStack* as, MessageStack* ms) override {
     return MessageResult::OK;
   }
   void Undo() override {}

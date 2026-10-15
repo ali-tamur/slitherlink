@@ -42,25 +42,22 @@ Grid::Grid(int rows, int cols) : rows_(rows), cols_(cols) {
     auto col = std::get<1>(tup);
     faces_[i].SetCorners(&CornerAt(row, col + 1), &CornerAt(row + 1, col + 1),
                          &CornerAt(row + 1, col), &CornerAt(row, col));
-    faces_[i].SetEdges(&EdgeAt(row, col, Orientation::HORIZONTAL),
-                       &EdgeAt(row, col + 1, Orientation::VERTICAL),
-                       &EdgeAt(row + 1, col, Orientation::HORIZONTAL),
-                       &EdgeAt(row, col, Orientation::VERTICAL));
+    faces_[i].SetEdges(
+        &EdgeAt(row, col, Orientation::HORIZONTAL), &EdgeAt(row, col + 1, Orientation::VERTICAL),
+        &EdgeAt(row + 1, col, Orientation::HORIZONTAL), &EdgeAt(row, col, Orientation::VERTICAL));
   }
   for (int i = 0; i < (rows_ + 1) * (cols_ + 1); ++i) {
     auto tup = IndexToRowCol(rows_ + 1, cols_ + 1, i);
     auto row = std::get<0>(tup);
     auto col = std::get<1>(tup);
-    corners_[i].SetFaces(
-        row == 0 || col == cols_ ? nullptr : &FaceAt(row - 1, col),
-        row == rows_ || col == cols_ ? nullptr : &FaceAt(row, col),
-        col == 0 || row == rows_ ? nullptr : &FaceAt(row, col - 1),
-        row == 0 || col == 0 ? nullptr : &FaceAt(row - 1, col - 1));
-    corners_[i].SetEdges(
-        row == 0 ? nullptr : &EdgeAt(row - 1, col, Orientation::VERTICAL),
-        col == cols_ ? nullptr : &EdgeAt(row, col, Orientation::HORIZONTAL),
-        row == rows_ ? nullptr : &EdgeAt(row, col, Orientation::VERTICAL),
-        col == 0 ? nullptr : &EdgeAt(row, col - 1, Orientation::HORIZONTAL));
+    corners_[i].SetFaces(row == 0 || col == cols_ ? nullptr : &FaceAt(row - 1, col),
+                         row == rows_ || col == cols_ ? nullptr : &FaceAt(row, col),
+                         col == 0 || row == rows_ ? nullptr : &FaceAt(row, col - 1),
+                         row == 0 || col == 0 ? nullptr : &FaceAt(row - 1, col - 1));
+    corners_[i].SetEdges(row == 0 ? nullptr : &EdgeAt(row - 1, col, Orientation::VERTICAL),
+                         col == cols_ ? nullptr : &EdgeAt(row, col, Orientation::HORIZONTAL),
+                         row == rows_ ? nullptr : &EdgeAt(row, col, Orientation::VERTICAL),
+                         col == 0 ? nullptr : &EdgeAt(row, col - 1, Orientation::HORIZONTAL));
   }
 
   // Vertical Edges
@@ -77,8 +74,8 @@ Grid::Grid(int rows, int cols) : rows_(rows), cols_(cols) {
     }
     edges_[i].SetCoordinate(row, col, Orientation::VERTICAL);
     edges_[i].SetFaces(face_list);
-    edges_[i].SetCorners({std::make_tuple(&CornerAt(row, col), 2),
-                          std::make_tuple(&CornerAt(row + 1, col), 0)});
+    edges_[i].SetCorners(
+        {std::make_tuple(&CornerAt(row, col), 2), std::make_tuple(&CornerAt(row + 1, col), 0)});
   }
   // Horizontal Edges
   int base = rows_ * (cols_ + 1);
@@ -95,8 +92,8 @@ Grid::Grid(int rows, int cols) : rows_(rows), cols_(cols) {
     }
     edges_[base + i].SetCoordinate(row, col, Orientation::HORIZONTAL);
     edges_[base + i].SetFaces(face_list);
-    edges_[base + i].SetCorners({std::make_tuple(&CornerAt(row, col), 1),
-                                 std::make_tuple(&CornerAt(row, col + 1), 3)});
+    edges_[base + i].SetCorners(
+        {std::make_tuple(&CornerAt(row, col), 1), std::make_tuple(&CornerAt(row, col + 1), 3)});
   }
 
   // Boundaries
@@ -115,8 +112,7 @@ Grid::Grid(int rows, int cols) : rows_(rows), cols_(cols) {
     }
   }
 
-  loops_.Init(rows_, cols_,
-              [&](int r, int c, Orientation o) { return &EdgeAt(r, c, o); });
+  loops_.Init(rows_, cols_, [&](int r, int c, Orientation o) { return &EdgeAt(r, c, o); });
   for (auto& e : edges_) {
     e.SetLoops(&loops_);
   }
@@ -151,8 +147,7 @@ void Grid::InitBoundary(int row, int col, int bn) {
   }
 
   int dn = 0;
-  for (auto& v :
-       std::vector<std::vector<Edge*>>{upright, downright, downleft, upleft}) {
+  for (auto& v : std::vector<std::vector<Edge*>>{upright, downright, downleft, upleft}) {
     boundaries_[bn + dn].Init(v);
     for (Edge* e : v) {
       e->AddBoundary(&boundaries_[bn + dn]);
@@ -165,9 +160,7 @@ Corner& Grid::CornerAt(int row, int col) {
   return corners_[RowColToIndex(rows_ + 1, cols_ + 1, row, col)];
 }
 
-Face& Grid::FaceAt(int row, int col) {
-  return faces_[RowColToIndex(rows_, cols_, row, col)];
-}
+Face& Grid::FaceAt(int row, int col) { return faces_[RowColToIndex(rows_, cols_, row, col)]; }
 
 Edge& Grid::EdgeAt(int row, int col, Orientation o) {
   if (o == VERTICAL) {

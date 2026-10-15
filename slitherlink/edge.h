@@ -31,9 +31,7 @@ class Edge : public IAgent {
   }
 
   void SetFaces(std::vector<std::tuple<Face*, int>> faces) { faces_ = faces; }
-  void SetCorners(std::vector<std::tuple<Corner*, int>> corners) {
-    corners_ = corners;
-  }
+  void SetCorners(std::vector<std::tuple<Corner*, int>> corners) { corners_ = corners; }
   void AddBoundary(Boundary* b) { boundaries_.push_back(b); }
   void SetLoops(Loops* l) { loops_ = l; }
 
@@ -42,8 +40,7 @@ class Edge : public IAgent {
   Orientation Orientation() const { return o_; }
   double Score() const;
 
-  MessageResult Receive(const Message& signal, ActionStack* stack,
-                        MessageStack*) override;
+  MessageResult Receive(const Message& signal, ActionStack* stack, MessageStack*) override;
   void Undo() override;
   int Timestamp() override;
   uint16_t State() const override;

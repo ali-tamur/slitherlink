@@ -22,8 +22,9 @@ class LoopsTest : public ::testing::Test {
   Grid grid_ = Grid(2, 3);
   ActionStack action_stack_;
   MessageStack message_stack_;
-  std::function<Edge*(int, int, Orientation)> f_ =
-      [&](int r, int c, Orientation o) { return &grid_.EdgeAt(r, c, o); };
+  std::function<Edge*(int, int, Orientation)> f_ = [&](int r, int c, Orientation o) {
+    return &grid_.EdgeAt(r, c, o);
+  };
 };
 
 TEST_F(LoopsTest, abc) {
@@ -55,8 +56,7 @@ TEST_F(LoopsTest, abc) {
   // . . . .
   // ┌─┐ . .
   // └─┘ . .
-  EXPECT_THAT(ToLoops(1, 1, Orientation::VERTICAL, &l),
-              MessageResult::SOLUTION);
+  EXPECT_THAT(ToLoops(1, 1, Orientation::VERTICAL, &l), MessageResult::SOLUTION);
 
   // . . . .
   // ┌─. . .
@@ -70,8 +70,7 @@ TEST_F(LoopsTest, abc) {
   EXPECT_THAT(ToLoops(1, 2, Orientation::HORIZONTAL, &l), MessageResult::OK);
   EXPECT_THAT(l.NStrings(), 2);
 
-  EXPECT_THAT(ToLoops(1, 1, Orientation::VERTICAL, &l),
-              MessageResult::CONTRADICTION);
+  EXPECT_THAT(ToLoops(1, 1, Orientation::VERTICAL, &l), MessageResult::CONTRADICTION);
   l.Undo();
   // . . . .
   // ┌─┐ .─.
@@ -105,8 +104,7 @@ TEST_F(LoopsTest, abc) {
   // . . .
   // ┌─ ─┐
   // └───┘
-  EXPECT_THAT(ToLoops(1, 1, Orientation::HORIZONTAL, &l),
-              MessageResult::SOLUTION);
+  EXPECT_THAT(ToLoops(1, 1, Orientation::HORIZONTAL, &l), MessageResult::SOLUTION);
   EXPECT_THAT(l.NStrings(), 0);
 }
 

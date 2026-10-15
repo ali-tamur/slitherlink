@@ -39,9 +39,7 @@ Node* Node::Merge(Node* other) {
   }
 }
 
-std::tuple<int, int> Node::Endpoints() {
-  return std::make_tuple(endpoint1_, endpoint2_);
-}
+std::tuple<int, int> Node::Endpoints() { return std::make_tuple(endpoint1_, endpoint2_); }
 
 bool Node::IsString() { return parent_ != nullptr || endpoint1_ != endpoint2_; }
 
@@ -74,8 +72,7 @@ std::tuple<int, Node*> Node::Root() {
   return std::make_tuple(n, now);
 }
 
-void Loops::Init(int rows, int cols,
-                 std::function<Edge*(int, int, Orientation)> f) {
+void Loops::Init(int rows, int cols, std::function<Edge*(int, int, Orientation)> f) {
   rows_ = rows;
   cols_ = cols;
   edge_finder_ = f;
@@ -105,9 +102,7 @@ MessageResult Loops::Receive(const Message& m, ActionStack* action_stack,
   // Find out the new number of strings after merge.
   bool is_string1 = nodes_[i1].IsString();
   bool is_string2 = nodes_[i2].IsString();
-  int delta = (is_string1 && is_string2)     ? -1
-              : (!is_string1 && !is_string2) ? 1
-                                             : 0;
+  int delta = (is_string1 && is_string2) ? -1 : (!is_string1 && !is_string2) ? 1 : 0;
 
   Node* undo_node = nodes_[i1].Merge(&nodes_[i2]);
   stack_.push_back(std::make_tuple(undo_node, n_strings_));
@@ -133,8 +128,7 @@ MessageResult Loops::Receive(const Message& m, ActionStack* action_stack,
   int e2 = std::get<1>(tup1);
   Edge* maybe_common_edge = CommonEdge(e1, e2);
   if (maybe_common_edge != nullptr && maybe_common_edge != source) {
-    message_stack->Push(
-        Message::ToEdge(this, maybe_common_edge, timestamp_, false));
+    message_stack->Push(Message::ToEdge(this, maybe_common_edge, timestamp_, false));
   }
   return MessageResult::OK;
 }
@@ -154,8 +148,7 @@ void Loops::Undo() {
 int Loops::Timestamp() { return timestamp_; }
 uint16_t Loops::State() const { return -1; }
 
-std::tuple<int, int> Loops::EdgeToCornerIndexes(int row, int col,
-                                                Orientation o) {
+std::tuple<int, int> Loops::EdgeToCornerIndexes(int row, int col, Orientation o) {
   if (o == VERTICAL) {
     return std::make_tuple(RowColToIndex(rows_ + 1, cols_ + 1, row, col),
                            RowColToIndex(rows_ + 1, cols_ + 1, row + 1, col));

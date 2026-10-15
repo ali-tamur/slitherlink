@@ -118,90 +118,90 @@ TEST(Grid, mock) {
   EXPECT_THAT(H00.Faces(), UnorderedElementsAre(std::make_tuple(&F00, 0)));
   EXPECT_THAT(H01.Faces(), UnorderedElementsAre(std::make_tuple(&F01, 0)));
   EXPECT_THAT(H02.Faces(), UnorderedElementsAre(std::make_tuple(&F02, 0)));
-  EXPECT_THAT(H10.Faces(), UnorderedElementsAre(std::make_tuple(&F00, 2),
-                                                std::make_tuple(&F10, 0)));
-  EXPECT_THAT(H11.Faces(), UnorderedElementsAre(std::make_tuple(&F01, 2),
-                                                std::make_tuple(&F11, 0)));
-  EXPECT_THAT(H12.Faces(), UnorderedElementsAre(std::make_tuple(&F02, 2),
-                                                std::make_tuple(&F12, 0)));
-  EXPECT_THAT(H20.Faces(), UnorderedElementsAre(std::make_tuple(&F10, 2),
-                                                std::make_tuple(&F20, 0)));
-  EXPECT_THAT(H21.Faces(), UnorderedElementsAre(std::make_tuple(&F11, 2),
-                                                std::make_tuple(&F21, 0)));
-  EXPECT_THAT(H22.Faces(), UnorderedElementsAre(std::make_tuple(&F12, 2),
-                                                std::make_tuple(&F22, 0)));
+  EXPECT_THAT(H10.Faces(),
+              UnorderedElementsAre(std::make_tuple(&F00, 2), std::make_tuple(&F10, 0)));
+  EXPECT_THAT(H11.Faces(),
+              UnorderedElementsAre(std::make_tuple(&F01, 2), std::make_tuple(&F11, 0)));
+  EXPECT_THAT(H12.Faces(),
+              UnorderedElementsAre(std::make_tuple(&F02, 2), std::make_tuple(&F12, 0)));
+  EXPECT_THAT(H20.Faces(),
+              UnorderedElementsAre(std::make_tuple(&F10, 2), std::make_tuple(&F20, 0)));
+  EXPECT_THAT(H21.Faces(),
+              UnorderedElementsAre(std::make_tuple(&F11, 2), std::make_tuple(&F21, 0)));
+  EXPECT_THAT(H22.Faces(),
+              UnorderedElementsAre(std::make_tuple(&F12, 2), std::make_tuple(&F22, 0)));
   EXPECT_THAT(H30.Faces(), UnorderedElementsAre(std::make_tuple(&F20, 2)));
   EXPECT_THAT(H31.Faces(), UnorderedElementsAre(std::make_tuple(&F21, 2)));
   EXPECT_THAT(H32.Faces(), UnorderedElementsAre(std::make_tuple(&F22, 2)));
 
   EXPECT_THAT(V00.Faces(), UnorderedElementsAre(std::make_tuple(&F00, 3)));
-  EXPECT_THAT(V01.Faces(), UnorderedElementsAre(std::make_tuple(&F00, 1),
-                                                std::make_tuple(&F01, 3)));
-  EXPECT_THAT(V02.Faces(), UnorderedElementsAre(std::make_tuple(&F01, 1),
-                                                std::make_tuple(&F02, 3)));
+  EXPECT_THAT(V01.Faces(),
+              UnorderedElementsAre(std::make_tuple(&F00, 1), std::make_tuple(&F01, 3)));
+  EXPECT_THAT(V02.Faces(),
+              UnorderedElementsAre(std::make_tuple(&F01, 1), std::make_tuple(&F02, 3)));
   EXPECT_THAT(V03.Faces(), UnorderedElementsAre(std::make_tuple(&F02, 1)));
   EXPECT_THAT(V10.Faces(), UnorderedElementsAre(std::make_tuple(&F10, 3)));
-  EXPECT_THAT(V11.Faces(), UnorderedElementsAre(std::make_tuple(&F10, 1),
-                                                std::make_tuple(&F11, 3)));
-  EXPECT_THAT(V12.Faces(), UnorderedElementsAre(std::make_tuple(&F11, 1),
-                                                std::make_tuple(&F12, 3)));
+  EXPECT_THAT(V11.Faces(),
+              UnorderedElementsAre(std::make_tuple(&F10, 1), std::make_tuple(&F11, 3)));
+  EXPECT_THAT(V12.Faces(),
+              UnorderedElementsAre(std::make_tuple(&F11, 1), std::make_tuple(&F12, 3)));
   EXPECT_THAT(V13.Faces(), UnorderedElementsAre(std::make_tuple(&F12, 1)));
   EXPECT_THAT(V20.Faces(), UnorderedElementsAre(std::make_tuple(&F20, 3)));
-  EXPECT_THAT(V21.Faces(), UnorderedElementsAre(std::make_tuple(&F20, 1),
-                                                std::make_tuple(&F21, 3)));
-  EXPECT_THAT(V22.Faces(), UnorderedElementsAre(std::make_tuple(&F21, 1),
-                                                std::make_tuple(&F22, 3)));
+  EXPECT_THAT(V21.Faces(),
+              UnorderedElementsAre(std::make_tuple(&F20, 1), std::make_tuple(&F21, 3)));
+  EXPECT_THAT(V22.Faces(),
+              UnorderedElementsAre(std::make_tuple(&F21, 1), std::make_tuple(&F22, 3)));
   EXPECT_THAT(V23.Faces(), UnorderedElementsAre(std::make_tuple(&F22, 1)));
 
-  EXPECT_THAT(H00.Corners(), UnorderedElementsAre(std::make_tuple(&C00, 1),
-                                                  std::make_tuple(&C01, 3)));
-  EXPECT_THAT(H01.Corners(), UnorderedElementsAre(std::make_tuple(&C01, 1),
-                                                  std::make_tuple(&C02, 3)));
-  EXPECT_THAT(H02.Corners(), UnorderedElementsAre(std::make_tuple(&C02, 1),
-                                                  std::make_tuple(&C03, 3)));
-  EXPECT_THAT(H10.Corners(), UnorderedElementsAre(std::make_tuple(&C10, 1),
-                                                  std::make_tuple(&C11, 3)));
-  EXPECT_THAT(H11.Corners(), UnorderedElementsAre(std::make_tuple(&C11, 1),
-                                                  std::make_tuple(&C12, 3)));
-  EXPECT_THAT(H12.Corners(), UnorderedElementsAre(std::make_tuple(&C12, 1),
-                                                  std::make_tuple(&C13, 3)));
-  EXPECT_THAT(H20.Corners(), UnorderedElementsAre(std::make_tuple(&C20, 1),
-                                                  std::make_tuple(&C21, 3)));
-  EXPECT_THAT(H21.Corners(), UnorderedElementsAre(std::make_tuple(&C21, 1),
-                                                  std::make_tuple(&C22, 3)));
-  EXPECT_THAT(H22.Corners(), UnorderedElementsAre(std::make_tuple(&C22, 1),
-                                                  std::make_tuple(&C23, 3)));
-  EXPECT_THAT(H30.Corners(), UnorderedElementsAre(std::make_tuple(&C30, 1),
-                                                  std::make_tuple(&C31, 3)));
-  EXPECT_THAT(H31.Corners(), UnorderedElementsAre(std::make_tuple(&C31, 1),
-                                                  std::make_tuple(&C32, 3)));
-  EXPECT_THAT(H32.Corners(), UnorderedElementsAre(std::make_tuple(&C32, 1),
-                                                  std::make_tuple(&C33, 3)));
+  EXPECT_THAT(H00.Corners(),
+              UnorderedElementsAre(std::make_tuple(&C00, 1), std::make_tuple(&C01, 3)));
+  EXPECT_THAT(H01.Corners(),
+              UnorderedElementsAre(std::make_tuple(&C01, 1), std::make_tuple(&C02, 3)));
+  EXPECT_THAT(H02.Corners(),
+              UnorderedElementsAre(std::make_tuple(&C02, 1), std::make_tuple(&C03, 3)));
+  EXPECT_THAT(H10.Corners(),
+              UnorderedElementsAre(std::make_tuple(&C10, 1), std::make_tuple(&C11, 3)));
+  EXPECT_THAT(H11.Corners(),
+              UnorderedElementsAre(std::make_tuple(&C11, 1), std::make_tuple(&C12, 3)));
+  EXPECT_THAT(H12.Corners(),
+              UnorderedElementsAre(std::make_tuple(&C12, 1), std::make_tuple(&C13, 3)));
+  EXPECT_THAT(H20.Corners(),
+              UnorderedElementsAre(std::make_tuple(&C20, 1), std::make_tuple(&C21, 3)));
+  EXPECT_THAT(H21.Corners(),
+              UnorderedElementsAre(std::make_tuple(&C21, 1), std::make_tuple(&C22, 3)));
+  EXPECT_THAT(H22.Corners(),
+              UnorderedElementsAre(std::make_tuple(&C22, 1), std::make_tuple(&C23, 3)));
+  EXPECT_THAT(H30.Corners(),
+              UnorderedElementsAre(std::make_tuple(&C30, 1), std::make_tuple(&C31, 3)));
+  EXPECT_THAT(H31.Corners(),
+              UnorderedElementsAre(std::make_tuple(&C31, 1), std::make_tuple(&C32, 3)));
+  EXPECT_THAT(H32.Corners(),
+              UnorderedElementsAre(std::make_tuple(&C32, 1), std::make_tuple(&C33, 3)));
 
-  EXPECT_THAT(V00.Corners(), UnorderedElementsAre(std::make_tuple(&C00, 2),
-                                                  std::make_tuple(&C10, 0)));
-  EXPECT_THAT(V01.Corners(), UnorderedElementsAre(std::make_tuple(&C01, 2),
-                                                  std::make_tuple(&C11, 0)));
-  EXPECT_THAT(V02.Corners(), UnorderedElementsAre(std::make_tuple(&C02, 2),
-                                                  std::make_tuple(&C12, 0)));
-  EXPECT_THAT(V03.Corners(), UnorderedElementsAre(std::make_tuple(&C03, 2),
-                                                  std::make_tuple(&C13, 0)));
-  EXPECT_THAT(V10.Corners(), UnorderedElementsAre(std::make_tuple(&C10, 2),
-                                                  std::make_tuple(&C20, 0)));
-  EXPECT_THAT(V11.Corners(), UnorderedElementsAre(std::make_tuple(&C11, 2),
-                                                  std::make_tuple(&C21, 0)));
-  EXPECT_THAT(V12.Corners(), UnorderedElementsAre(std::make_tuple(&C12, 2),
-                                                  std::make_tuple(&C22, 0)));
-  EXPECT_THAT(V13.Corners(), UnorderedElementsAre(std::make_tuple(&C13, 2),
-                                                  std::make_tuple(&C23, 0)));
-  EXPECT_THAT(V20.Corners(), UnorderedElementsAre(std::make_tuple(&C20, 2),
-                                                  std::make_tuple(&C30, 0)));
-  EXPECT_THAT(V21.Corners(), UnorderedElementsAre(std::make_tuple(&C21, 2),
-                                                  std::make_tuple(&C31, 0)));
-  EXPECT_THAT(V22.Corners(), UnorderedElementsAre(std::make_tuple(&C22, 2),
-                                                  std::make_tuple(&C32, 0)));
-  EXPECT_THAT(V23.Corners(), UnorderedElementsAre(std::make_tuple(&C23, 2),
-                                                  std::make_tuple(&C33, 0)));
+  EXPECT_THAT(V00.Corners(),
+              UnorderedElementsAre(std::make_tuple(&C00, 2), std::make_tuple(&C10, 0)));
+  EXPECT_THAT(V01.Corners(),
+              UnorderedElementsAre(std::make_tuple(&C01, 2), std::make_tuple(&C11, 0)));
+  EXPECT_THAT(V02.Corners(),
+              UnorderedElementsAre(std::make_tuple(&C02, 2), std::make_tuple(&C12, 0)));
+  EXPECT_THAT(V03.Corners(),
+              UnorderedElementsAre(std::make_tuple(&C03, 2), std::make_tuple(&C13, 0)));
+  EXPECT_THAT(V10.Corners(),
+              UnorderedElementsAre(std::make_tuple(&C10, 2), std::make_tuple(&C20, 0)));
+  EXPECT_THAT(V11.Corners(),
+              UnorderedElementsAre(std::make_tuple(&C11, 2), std::make_tuple(&C21, 0)));
+  EXPECT_THAT(V12.Corners(),
+              UnorderedElementsAre(std::make_tuple(&C12, 2), std::make_tuple(&C22, 0)));
+  EXPECT_THAT(V13.Corners(),
+              UnorderedElementsAre(std::make_tuple(&C13, 2), std::make_tuple(&C23, 0)));
+  EXPECT_THAT(V20.Corners(),
+              UnorderedElementsAre(std::make_tuple(&C20, 2), std::make_tuple(&C30, 0)));
+  EXPECT_THAT(V21.Corners(),
+              UnorderedElementsAre(std::make_tuple(&C21, 2), std::make_tuple(&C31, 0)));
+  EXPECT_THAT(V22.Corners(),
+              UnorderedElementsAre(std::make_tuple(&C22, 2), std::make_tuple(&C32, 0)));
+  EXPECT_THAT(V23.Corners(),
+              UnorderedElementsAre(std::make_tuple(&C23, 2), std::make_tuple(&C33, 0)));
 
   //   B00_UR = g.Boundaries()[0];
   //   B00_DR = g.Boundaries()[1];

@@ -68,12 +68,10 @@ std::vector<Message> Edge::ConstructMessages() {
   }
 
   for (auto* b : boundaries_) {
-    r.push_back(
-        Message::FromEdge(this, (IAgent*)b, timestamp_, -389, bool_state));
+    r.push_back(Message::FromEdge(this, (IAgent*)b, timestamp_, -389, bool_state));
   }
 
-  r.push_back(
-      Message::FromEdge(this, (IAgent*)loops_, timestamp_, -499, bool_state));
+  r.push_back(Message::FromEdge(this, (IAgent*)loops_, timestamp_, -499, bool_state));
 
   return r;
 }
@@ -83,8 +81,7 @@ uint16_t Edge::NewState(const Message& m) {
   return (m.edge_state ? EDGE_ON : EDGE_OFF) & state_;
 }
 
-MessageResult Edge::Receive(const Message& message, ActionStack* stack,
-                            MessageStack* messages) {
+MessageResult Edge::Receive(const Message& message, ActionStack* stack, MessageStack* messages) {
   uint16_t new_state = NewState(message);
   if (state_ == new_state) {
     return MessageResult::OK;

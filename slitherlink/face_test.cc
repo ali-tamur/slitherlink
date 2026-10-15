@@ -31,8 +31,7 @@ TEST(Face, Init) {
     f.SetValue(2);
     f.Init();
     EXPECT_TRUE(f.HasValue());
-    EXPECT_THAT(f.State(), (1 << 3) + (1 << 5) + (1 << 6) + (1 << 9) +
-                               (1 << 10) + (1 << 12));
+    EXPECT_THAT(f.State(), (1 << 3) + (1 << 5) + (1 << 6) + (1 << 9) + (1 << 10) + (1 << 12));
   }
   {
     Face f;

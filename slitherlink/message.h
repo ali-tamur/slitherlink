@@ -41,8 +41,7 @@ struct Message {
     return r;
   }
 
-  static Message ToEdge(IAgent* source, IAgent* target, int timestamp,
-                        bool edge_state) {
+  static Message ToEdge(IAgent* source, IAgent* target, int timestamp, bool edge_state) {
     Message r;
     r.tag = MessageTag::T_ToEdge;
     r.source = source;
@@ -52,8 +51,8 @@ struct Message {
     return r;
   }
 
-  static Message FromEdge(IAgent* source, IAgent* target, int timestamp,
-                          int index, bool edge_state) {
+  static Message FromEdge(IAgent* source, IAgent* target, int timestamp, int index,
+                          bool edge_state) {
     Message r;
     r.tag = MessageTag::T_FromEdge;
     r.source = source;
@@ -133,14 +132,11 @@ class IAgent {
  public:
   IAgent() = default;
   virtual ~IAgent() = default;
-  virtual MessageResult Receive(const Message& signal, ActionStack* stack,
-                                MessageStack*) = 0;
+  virtual MessageResult Receive(const Message& signal, ActionStack* stack, MessageStack*) = 0;
   virtual void Undo() = 0;
   virtual int Timestamp() = 0;
   virtual uint16_t State() const = 0;
-  virtual std::string DebugPrint() const {
-    return "DEBUG_STRING NOT IMPLEMENTED";
-  }
+  virtual std::string DebugPrint() const { return "DEBUG_STRING NOT IMPLEMENTED"; }
 };
 
 }  // namespace puzzle

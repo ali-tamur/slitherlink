@@ -4,8 +4,8 @@
 #include "edge.h"
 #include "face.h"
 #include "grid.h"
-#include "solver.h"
 #include "slitherlink/utils.h"
+#include "solver.h"
 
 namespace puzzle {
 void SetEdge(Edge* e) {

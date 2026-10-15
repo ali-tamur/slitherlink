@@ -34,8 +34,7 @@ TEST(BitIterator, simple) {
   while (b.HasNext()) {
     result.push_back(b.Next());
   }
-  std::vector<int> expected(
-      {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15});
+  std::vector<int> expected({0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15});
   EXPECT_THAT(result, ::testing::ElementsAreArray(expected));
 }
 

@@ -6,3 +6,6 @@ MODULE.bazel.lock.tmp
 # clangd
 /compile_commands.json
 /.cache/
+
+# Editor
+/.vscode/

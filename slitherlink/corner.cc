@@ -32,17 +32,17 @@ void Corner::Init() {
   old_states_.clear();
 }
 
-  void Corner::SetFaces(Face* upright, Face* downright, Face* downleft, Face* upleft) {
-    upright_ = upright;
-    downright_ = downright;
-    downleft_ = downleft;
-    upleft_ = upleft;
-    print_char_ = SetPrintChar();
-  }
+void Corner::SetFaces(Face* upright, Face* downright, Face* downleft, Face* upleft) {
+  upright_ = upright;
+  downright_ = downright;
+  downleft_ = downleft;
+  upleft_ = upleft;
+  print_char_ = SetPrintChar();
+}
 
-  void Corner::SetEdges(Edge* up, Edge* right, Edge* down, Edge* left) {
-    edges_ = {up, right, down, left};
-  }
+void Corner::SetEdges(Edge* up, Edge* right, Edge* down, Edge* left) {
+  edges_ = {up, right, down, left};
+}
 
 std::vector<Message> Corner::ConstructMessages() {
   std::vector<Message> r;
@@ -59,29 +59,25 @@ std::vector<Message> Corner::ConstructMessages() {
   if (upright_ != nullptr) {
     uint16_t projected_state = Project(state_, std::vector<int>{0, 1});
     if (projected_state != 15) {
-      r.push_back(Message::FaceAndCorner(this, upright_, timestamp_,
-                                         projected_state, 3, 2));
+      r.push_back(Message::FaceAndCorner(this, upright_, timestamp_, projected_state, 3, 2));
     }
   }
   if (downright_ != nullptr) {
     uint16_t projected_state = Project(state_, std::vector<int>{1, 2});
     if (projected_state != 15) {
-      r.push_back(Message::FaceAndCorner(this, downright_, timestamp_,
-                                         projected_state, 0, 3));
+      r.push_back(Message::FaceAndCorner(this, downright_, timestamp_, projected_state, 0, 3));
     }
   }
   if (downleft_ != nullptr) {
     uint16_t projected_state = Project(state_, std::vector<int>{2, 3});
     if (projected_state != 15) {
-      r.push_back(Message::FaceAndCorner(this, downleft_, timestamp_,
-                                         projected_state, 1, 0));
+      r.push_back(Message::FaceAndCorner(this, downleft_, timestamp_, projected_state, 1, 0));
     }
   }
   if (upleft_ != nullptr) {
     uint16_t projected_state = Project(state_, std::vector<int>{0, 3});
     if (projected_state != 15) {
-      r.push_back(Message::FaceAndCorner(this, upleft_, timestamp_,
-                                         projected_state, 1, 2));
+      r.push_back(Message::FaceAndCorner(this, upleft_, timestamp_, projected_state, 1, 2));
     }
   }
   return r;
@@ -114,8 +110,7 @@ std::string Corner::PrettyPrint() const {
 }
 
 std::string Corner::SetPrintChar() {
-  if (upleft_ != nullptr && downleft_ != nullptr && upright_ != nullptr &&
-      downright_ != nullptr) {
+  if (upleft_ != nullptr && downleft_ != nullptr && upright_ != nullptr && downright_ != nullptr) {
     return "┼";
   }
   if (upleft_ == nullptr && downleft_ == nullptr && upright_ == nullptr) {
@@ -146,18 +141,15 @@ std::string Corner::SetPrintChar() {
 }
 
 uint16_t Corner::NewState(const Message& m) {
-  assert((m.tag == MessageTag::T_FaceAndCorner ||
-          m.tag == MessageTag::T_FromEdge) &&
+  assert((m.tag == MessageTag::T_FaceAndCorner || m.tag == MessageTag::T_FromEdge) &&
          "Wrong MessageType");
   if (m.tag == MessageTag::T_FromEdge) {
     return ReduceSingle(state_, m.index1, m.edge_state);
   }
-  return Reduce(state_, m.projected_state,
-                std::vector<int>{m.index1, m.index2});
+  return Reduce(state_, m.projected_state, std::vector<int>{m.index1, m.index2});
 }
 
-MessageResult Corner::Receive(const Message& message, ActionStack* stack,
-                              MessageStack* messages) {
+MessageResult Corner::Receive(const Message& message, ActionStack* stack, MessageStack* messages) {
   // assuming the sender already checked that the message is not obsolete.
   uint16_t new_state = NewState(message);
   if (state_ == new_state) {
@@ -183,26 +175,26 @@ void Corner::Undo() {
 
 int Corner::Timestamp() { return timestamp_; }
 
-  std::string Corner::DebugPrint() const {
-    std::string result;
-    result += "C(";
-    int row;
-    int col;
-    if (edges_[0] == nullptr) {
-      row = 0;
-    } else {
-      row = edges_[0]->Row() + 1;
-    }
-    if (edges_[3] == nullptr) {
-      col = 0;
-    } else {
-      col = edges_[3]->Col() + 1;
-    }
-    result += std::to_string(row);
-    result += ",";
-    result += std::to_string(col);
-    result += ")";
-    return result;
+std::string Corner::DebugPrint() const {
+  std::string result;
+  result += "C(";
+  int row;
+  int col;
+  if (edges_[0] == nullptr) {
+    row = 0;
+  } else {
+    row = edges_[0]->Row() + 1;
   }
+  if (edges_[3] == nullptr) {
+    col = 0;
+  } else {
+    col = edges_[3]->Col() + 1;
+  }
+  result += std::to_string(row);
+  result += ",";
+  result += std::to_string(col);
+  result += ")";
+  return result;
+}
 
 }  // namespace puzzle

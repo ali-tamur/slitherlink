@@ -22,17 +22,14 @@ class Face : public IAgent {
   Face() = default;
   ~Face() override = default;
 
-  void SetCorners(Corner* upright, Corner* downright, Corner* downleft,
-                  Corner* upleft) {
+  void SetCorners(Corner* upright, Corner* downright, Corner* downleft, Corner* upleft) {
     upright_ = upright;
     downright_ = downright;
     downleft_ = downleft;
     upleft_ = upleft;
   }
 
-  void SetEdges(Edge* up, Edge* right, Edge* down, Edge* left) {
-    edges_ = {up, right, down, left};
-  }
+  void SetEdges(Edge* up, Edge* right, Edge* down, Edge* left) { edges_ = {up, right, down, left}; }
 
   void SetValue(int val);
   int Value() const;
@@ -62,8 +59,7 @@ class Face : public IAgent {
   const std::vector<Edge*>& Edges() const { return edges_; }
 
   void Undo() override;
-  MessageResult Receive(const Message& signal, ActionStack* stack,
-                        MessageStack*) override;
+  MessageResult Receive(const Message& signal, ActionStack* stack, MessageStack*) override;
 
   uint16_t NewState(const Message& message);
 
