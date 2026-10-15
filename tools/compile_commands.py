@@ -25,7 +25,9 @@ for name, target in [("external", f"{output_base}/external"), ("bazel-out", baze
     if not os.path.lexists(name):
         os.symlink(target, name)
 
-clang = os.path.expanduser("~/.local/opt/llvm/bin/clang++")
+# clangd needs a real compiler as argv[0] (Bazel runs a wrapper script); use the
+# compiler Bazel downloaded, so clangd and the build always agree.
+clang = os.path.abspath("external/toolchains_llvm++llvm+llvm_toolchain_llvm/bin/clang++")
 entries = []
 for action in aquery.get("actions", []):
     args = action["arguments"]

@@ -25,8 +25,8 @@ search.
 
 ## Build and run
 
-Requires Bazel (via Bazelisk) and the machine-wide LLVM toolchain configured in
-`MODULE.bazel`.
+Requires [Bazelisk](https://github.com/bazelbuild/bazelisk) (or Bazel 9.3) on Linux
+x86-64. Bazel downloads everything else, including the LLVM 23.1.3 toolchain.
 
 ```sh
 bazel run -c opt //slitherlink:grid_main   # solve the built-in 15x15 puzzle
@@ -38,3 +38,7 @@ bazel test //slitherlink/...               # unit tests
 - `tools/format.sh` — clang-format (Google style, 100 columns).
 - `python3 tools/compile_commands.py` — `compile_commands.json` for clangd.
 - `.clang-tidy` — the checks the code is kept clean against.
+
+## License
+
+MIT; see [LICENSE](LICENSE).
