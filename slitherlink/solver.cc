@@ -1,7 +1,6 @@
 #include "slitherlink/solver.h"
 
 #include <algorithm>
-#include <bitset>
 #include <vector>
 
 #include "slitherlink/bits.h"
@@ -12,9 +11,6 @@
 #include "slitherlink/message.h"
 
 namespace slitherlink {
-
-// Print every state change the solver makes (very verbose).
-constexpr bool TRACE_MESSAGES = false;
 
 using Solution = std::vector<std::tuple<int, int, Orientation>>;
 
@@ -93,22 +89,6 @@ void ThreeThreeStacked(Grid* g, MessageStack* ms) {
   }
 }
 
-// Delivers m to target; with TRACE_MESSAGES, prints the state change it causes.
-MessageResult Deliver(const Message& m, IAgent* target, ActionStack* as, MessageStack* ms,
-                      int step) {
-  if constexpr (TRACE_MESSAGES) {
-    const uint16_t old_state = target->State();
-    const MessageResult r = target->Receive(m, as, ms);
-    if (old_state != target->State()) {
-      std::cout << step << ":" << m.DebugPrint() << " " << std::bitset<STATE_BITS>(old_state)
-                << " ==> " << std::bitset<STATE_BITS>(target->State()) << "\n";
-    }
-    return r;
-  } else {
-    return target->Receive(m, as, ms);
-  }
-}
-
 }  // namespace
 
 void InitialThreeThree(Grid* g, MessageStack* ms) {
@@ -158,11 +138,9 @@ std::vector<Solution> Solve(Grid* g) {
   MessageStack ms;
   InitialConsequences(g, &ms);
   InitialThreeThree(g, &ms);
-  int i = 0;
   while (!as.IsEmpty()) {
     while (!ms.IsEmpty()) {
       Message m = ms.Pop();
-      ++i;
       IAgent* source = m.source;
       IAgent* target = m.target;
       int timestamp = m.timestamp;
@@ -172,7 +150,7 @@ std::vector<Solution> Solve(Grid* g) {
         continue;
       }
 
-      MessageResult r = Deliver(m, target, &as, &ms, i);
+      MessageResult r = target->Receive(m, &as, &ms);
 
       if (r == MessageResult::OK) {
         continue;
@@ -181,8 +159,6 @@ std::vector<Solution> Solve(Grid* g) {
         solutions.push_back(GetSolution(g));
         std::cout << g->PrettyPrint() << "\n";
       }
-
-      std::cout << "CONTADICTION: " << m.DebugPrint() << "\n";
 
       Action last_assumption = as.Undo();
       if (last_assumption.agent == nullptr) {

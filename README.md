@@ -33,8 +33,6 @@ bazel run -c opt //slitherlink:grid_main   # solve the built-in 15x15 puzzle
 bazel test //slitherlink/...               # unit tests
 ```
 
-Set `TRACE_MESSAGES` in `slitherlink/solver.cc` to print every state change.
-
 ## Development
 
 - `tools/format.sh` — clang-format (Google style, 100 columns).
