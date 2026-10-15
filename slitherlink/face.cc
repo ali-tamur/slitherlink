@@ -1,7 +1,6 @@
 #include "slitherlink/face.h"
 
-#include <math.h>
-
+#include <cmath>
 #include <memory>
 #include <optional>
 #include <string>
@@ -24,9 +23,9 @@ void Face::SetValue(int val) {
 void Face::Init() {
   uint16_t new_state = 0;
   // skip i == 15; it forms a loop.
-  for (int i = 0; i < 15; ++i) {
+  for (unsigned i = 0; i < ALL_FOUR_EDGES; ++i) {
     if (!has_value_ || __builtin_popcount(i) == value_) {
-      new_state |= (1 << i);
+      new_state |= (1U << i);
     }
   }
   state_ = new_state;
@@ -72,32 +71,32 @@ std::vector<Message> Face::ConstructMessages() {
   }
   {
     uint16_t projected_state = Project(state_, std::vector<int>{0, 1});
-    if (projected_state != 15) {
+    if (projected_state != NO_INFORMATION) {
       r.push_back(Message::FaceAndCorner(this, upright_, timestamp_, projected_state, 3, 2));
     }
   }
   {
     uint16_t projected_state = Project(state_, std::vector<int>{1, 2});
-    if (projected_state != 15) {
+    if (projected_state != NO_INFORMATION) {
       r.push_back(Message::FaceAndCorner(this, downright_, timestamp_, projected_state, 0, 3));
     }
   }
   {
     uint16_t projected_state = Project(state_, std::vector<int>{2, 3});
-    if (projected_state != 15) {
+    if (projected_state != NO_INFORMATION) {
       r.push_back(Message::FaceAndCorner(this, downleft_, timestamp_, projected_state, 1, 0));
     }
   }
   {
     uint16_t projected_state = Project(state_, std::vector<int>{0, 3});
-    if (projected_state != 15) {
+    if (projected_state != NO_INFORMATION) {
       r.push_back(Message::FaceAndCorner(this, upleft_, timestamp_, projected_state, 1, 2));
     }
   }
   return r;
 }
 
-uint16_t Face::NewState(const Message& m) {
+uint16_t Face::NewState(const Message& m) const {
   assert((m.tag == MessageTag::T_FaceAndCorner || m.tag == MessageTag::T_FromEdge) &&
          "Wrong MessageType");
   if (m.tag == MessageTag::T_FromEdge) {

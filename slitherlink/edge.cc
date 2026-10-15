@@ -16,14 +16,21 @@
 
 namespace puzzle {
 
+namespace {
+// Boundary and Loops ignore the message index; these values only make the
+// messages easy to recognize when debugging.
+constexpr int BOUNDARY_MESSAGE_INDEX = -389;
+constexpr int LOOPS_MESSAGE_INDEX = -499;
+}  // namespace
+
 uint16_t Edge::State() const { return state_; }
 
 double Edge::Score() const {
   double score = 0;
-  for (auto& f : faces_) {
+  for (const auto& f : faces_) {
     score += std::get<0>(f)->Score();
   }
-  for (auto& c : corners_) {
+  for (const auto& c : corners_) {
     score += std::get<0>(c)->Score();
   }
   return score;
@@ -44,11 +51,11 @@ std::string Edge::DebugPrint() const {
   std::string result;
   result += "E(";
   result += std::to_string(row_);
-  result += ",";
+  result += ',';
   result += std::to_string(col_);
-  result += ",";
+  result += ',';
   result += o_ == Orientation::VERTICAL ? "V" : "H";
-  result += ")";
+  result += ')';
   return result;
 }
 
@@ -68,15 +75,15 @@ std::vector<Message> Edge::ConstructMessages() {
   }
 
   for (auto* b : boundaries_) {
-    r.push_back(Message::FromEdge(this, (IAgent*)b, timestamp_, -389, bool_state));
+    r.push_back(Message::FromEdge(this, b, timestamp_, BOUNDARY_MESSAGE_INDEX, bool_state));
   }
 
-  r.push_back(Message::FromEdge(this, (IAgent*)loops_, timestamp_, -499, bool_state));
+  r.push_back(Message::FromEdge(this, loops_, timestamp_, LOOPS_MESSAGE_INDEX, bool_state));
 
   return r;
 }
 
-uint16_t Edge::NewState(const Message& m) {
+uint16_t Edge::NewState(const Message& m) const {
   assert((m.tag == MessageTag::T_ToEdge) && "Wrong MessageType");
   return (m.edge_state ? EDGE_ON : EDGE_OFF) & state_;
 }

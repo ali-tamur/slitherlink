@@ -3,6 +3,7 @@
 #include "gmock/gmock.h"
 #include "gtest/gtest.h"
 
+// NOLINTBEGIN(readability-magic-numbers)
 namespace puzzle {
 
 TEST(Face, Init) {
@@ -10,7 +11,7 @@ TEST(Face, Init) {
     Face f;
     f.Init();
     EXPECT_FALSE(f.HasValue());
-    EXPECT_THAT(f.State(), (1 << 15) - 1);
+    EXPECT_THAT(f.State(), (1U << 15U) - 1);
   }
   {
     Face f;
@@ -24,21 +25,22 @@ TEST(Face, Init) {
     f.SetValue(1);
     f.Init();
     EXPECT_TRUE(f.HasValue());
-    EXPECT_THAT(f.State(), (1 << 1) + (1 << 2) + (1 << 4) + (1 << 8));
+    EXPECT_THAT(f.State(), (1U << 1U) + (1U << 2U) + (1U << 4U) + (1U << 8U));
   }
   {
     Face f;
     f.SetValue(2);
     f.Init();
     EXPECT_TRUE(f.HasValue());
-    EXPECT_THAT(f.State(), (1 << 3) + (1 << 5) + (1 << 6) + (1 << 9) + (1 << 10) + (1 << 12));
+    EXPECT_THAT(f.State(),
+                (1U << 3U) + (1U << 5U) + (1U << 6U) + (1U << 9U) + (1U << 10U) + (1U << 12U));
   }
   {
     Face f;
     f.SetValue(3);
     f.Init();
     EXPECT_TRUE(f.HasValue());
-    EXPECT_THAT(f.State(), (1 << 7) + (1 << 11) + (1 << 13) + (1 << 14));
+    EXPECT_THAT(f.State(), (1U << 7U) + (1U << 11U) + (1U << 13U) + (1U << 14U));
   }
 }
 
@@ -144,3 +146,4 @@ TEST(Face, NewState) {
 }
 
 }  // namespace puzzle
+// NOLINTEND(readability-magic-numbers)

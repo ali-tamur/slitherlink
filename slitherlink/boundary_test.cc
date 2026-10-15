@@ -25,7 +25,9 @@ class BoundaryTest : public ::testing::Test {
 void SetEdge(Edge* e, bool state) {}
 
 TEST_F(BoundaryTest, simple) {
-  Edge e1, e2, e3;
+  Edge e1;
+  Edge e2;
+  Edge e3;
   Boundary b;
   b.Init(std::vector<Edge*>{&e1, &e2, &e3});
 

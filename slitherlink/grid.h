@@ -46,7 +46,12 @@ class Grid {
   std::string PrettyPrint();
 
  private:
-  void InitBoundary(int row, int col, int boundary_index);
+  void LinkFaces();
+  void LinkCorners();
+  void LinkVerticalEdges();
+  void LinkHorizontalEdges();
+  void InitBoundaries();
+  void InitBoundary(int row, int col, int bn);
   std::string DrawLine(int row);
   std::string DrawRow(int row);
 

@@ -1,10 +1,10 @@
 #include "slitherlink/loops.h"
 
-#include <assert.h>
-
+#include <cassert>
 #include <functional>
 #include <memory>
 #include <tuple>
+#include <utility>
 #include <vector>
 
 #include "slitherlink/edge.h"
@@ -32,11 +32,10 @@ Node* Node::Merge(Node* other) {
     root1->parent_ = root2;
     root2->Merged(e1, e2);
     return root1;
-  } else {
-    root2->parent_ = root1;
-    root1->Merged(e1, e2);
-    return root2;
   }
+  root2->parent_ = root1;
+  root1->Merged(e1, e2);
+  return root2;
 }
 
 std::tuple<int, int> Node::Endpoints() { return std::make_tuple(endpoint1_, endpoint2_); }
@@ -51,7 +50,7 @@ void Node::Unparent() {
 Node* Node::Parent() { return parent_; }
 
 void Node::Merged(int e1, int e2) {
-  stack_.push_back(std::make_tuple(endpoint1_, endpoint2_));
+  stack_.emplace_back(endpoint1_, endpoint2_);
   endpoint1_ = e1;
   endpoint2_ = e2;
 }
@@ -75,16 +74,16 @@ std::tuple<int, Node*> Node::Root() {
 void Loops::Init(int rows, int cols, std::function<Edge*(int, int, Orientation)> f) {
   rows_ = rows;
   cols_ = cols;
-  edge_finder_ = f;
+  edge_finder_ = std::move(f);
   for (int i = 0; i < (rows + 1) * (cols + 1); ++i) {
-    nodes_.push_back(Node(i));
+    nodes_.emplace_back(i);
   }
 }
 
 MessageResult Loops::Receive(const Message& m, ActionStack* action_stack,
                              MessageStack* message_stack) {
   assert((m.tag == MessageTag::T_FromEdge) && "Wrong Message Type to Loops");
-  const Edge* source = (Edge*)m.source;
+  const Edge* source = static_cast<Edge*>(m.source);
 
   // Don't care about turned off edges.
   if (!m.edge_state) {
@@ -102,10 +101,15 @@ MessageResult Loops::Receive(const Message& m, ActionStack* action_stack,
   // Find out the new number of strings after merge.
   bool is_string1 = nodes_[i1].IsString();
   bool is_string2 = nodes_[i2].IsString();
-  int delta = (is_string1 && is_string2) ? -1 : (!is_string1 && !is_string2) ? 1 : 0;
+  int delta = 0;
+  if (is_string1 && is_string2) {
+    delta = -1;
+  } else if (!is_string1 && !is_string2) {
+    delta = 1;
+  }
 
   Node* undo_node = nodes_[i1].Merge(&nodes_[i2]);
-  stack_.push_back(std::make_tuple(undo_node, n_strings_));
+  stack_.emplace_back(undo_node, n_strings_);
   n_strings_ += delta;
   action_stack->AddAction(this);
   timestamp_ = action_stack->Timestamp();
@@ -148,7 +152,7 @@ void Loops::Undo() {
 int Loops::Timestamp() { return timestamp_; }
 uint16_t Loops::State() const { return -1; }
 
-std::tuple<int, int> Loops::EdgeToCornerIndexes(int row, int col, Orientation o) {
+std::tuple<int, int> Loops::EdgeToCornerIndexes(int row, int col, Orientation o) const {
   if (o == VERTICAL) {
     return std::make_tuple(RowColToIndex(rows_ + 1, cols_ + 1, row, col),
                            RowColToIndex(rows_ + 1, cols_ + 1, row + 1, col));

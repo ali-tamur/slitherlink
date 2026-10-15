@@ -4,6 +4,7 @@
 #include "gtest/gtest.h"
 #include "slitherlink/grid.h"
 
+// NOLINTBEGIN(readability-magic-numbers)
 namespace puzzle {
 
 void InitGrid(Grid* g, std::string s) {
@@ -111,3 +112,4 @@ TEST(Solver, f) {
 }
 
 }  // namespace puzzle
+// NOLINTEND(readability-magic-numbers)

@@ -46,7 +46,7 @@ class Node {
 // *  It has the ability to undo.
 class Loops : public IAgent {
  public:
-  void Init(int rows, int cols, std::function<Edge*(int, int, Orientation)> edge_finder);
+  void Init(int rows, int cols, std::function<Edge*(int, int, Orientation)> f);
 
   MessageResult Receive(const Message& message, ActionStack* action_stack,
                         MessageStack* message_stack) override;
@@ -64,7 +64,7 @@ class Loops : public IAgent {
   std::string DebugPrint() const override { return "Loops"; }
 
  private:
-  std::tuple<int, int> EdgeToCornerIndexes(int row, int col, Orientation o);
+  std::tuple<int, int> EdgeToCornerIndexes(int row, int col, Orientation o) const;
 
   // nullptr unless i1 and i2 point to neighboor corners, in which case
   // returns the edge.

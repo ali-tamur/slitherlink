@@ -5,6 +5,7 @@
 #include "gmock/gmock.h"
 #include "gtest/gtest.h"
 
+// NOLINTBEGIN(readability-magic-numbers)
 namespace puzzle {
 TEST(BitOps, simple) {
   EXPECT_EQ(SetBit(0, 0), 1);
@@ -105,9 +106,9 @@ TEST(Reduce, simple) {
   // We look at the 1st and 3rd bits, so m corresponds to 0x0x mask.
   std::vector<int> indexes = {1, 3};
   // n : 0000, 0011, 0101, 0110
-  uint16_t n = (1 << 0) + (1 << 3) + (1 << 5) + (1 << 6);
+  uint16_t n = (1U << 0U) + (1U << 3U) + (1U << 5U) + (1U << 6U);
   // Only the ones that fit into 0x0x should remain.
-  EXPECT_THAT(Reduce(n, m, indexes), (1 << 0) + (1 << 5));
+  EXPECT_THAT(Reduce(n, m, indexes), (1U << 0U) + (1U << 5U));
 
   // m is 6 ==> 11:F 10:T 01:T 00:F
   // which means XOR of the bits should be 1.
@@ -115,22 +116,23 @@ TEST(Reduce, simple) {
   // We look at the 0th and 3rd bits, so m corresponds to AxxA' mask.
   indexes = {0, 3};
   // n : 0001, 0010, 1000, 1001
-  n = (1 << 1) + (1 << 2) + (1 << 8) + (1 << 9);
+  n = (1U << 1U) + (1U << 2U) + (1U << 8U) + (1U << 9U);
   // Only the ones that fit into AxxA' should remain.
-  EXPECT_THAT(Reduce(n, m, indexes), (1 << 1) + (1 << 8));
+  EXPECT_THAT(Reduce(n, m, indexes), (1U << 1U) + (1U << 8U));
 }
 
 TEST(ReduceSingle, simple) {
-  uint16_t n = (1 << 0) + (1 << 2) + (1 << 3);
-  EXPECT_THAT(ReduceSingle(n, 1, true), (1 << 2) + (1 << 3));
-  EXPECT_THAT(ReduceSingle(n, 1, false), (1 << 0));
+  uint16_t n = (1U << 0U) + (1U << 2U) + (1U << 3U);
+  EXPECT_THAT(ReduceSingle(n, 1, true), (1U << 2U) + (1U << 3U));
+  EXPECT_THAT(ReduceSingle(n, 1, false), (1U << 0U));
 }
 
 TEST(ProjectSingle, simple) {
-  uint16_t n = (1 << 2) + (1 << 6);
+  uint16_t n = (1U << 2U) + (1U << 6U);
   EXPECT_THAT(ProjectSingle(n, 0), 1);
   EXPECT_THAT(ProjectSingle(n, 1), 2);
   EXPECT_THAT(ProjectSingle(n, 2), 3);
 }
 
 }  // namespace puzzle
+// NOLINTEND(readability-magic-numbers)

@@ -16,8 +16,6 @@ namespace puzzle {
 
 class Face;
 class Corner;
-class Boundary;
-class Loops;
 
 class Edge : public IAgent {
  public:
@@ -32,15 +30,15 @@ class Edge : public IAgent {
 
   void SetFaces(std::vector<std::tuple<Face*, int>> faces) { faces_ = faces; }
   void SetCorners(std::vector<std::tuple<Corner*, int>> corners) { corners_ = corners; }
-  void AddBoundary(Boundary* b) { boundaries_.push_back(b); }
-  void SetLoops(Loops* l) { loops_ = l; }
+  void AddBoundary(IAgent* b) { boundaries_.push_back(b); }
+  void SetLoops(IAgent* l) { loops_ = l; }
 
   int Row() const { return row_; }
   int Col() const { return col_; }
   Orientation Orientation() const { return o_; }
   double Score() const;
 
-  MessageResult Receive(const Message& signal, ActionStack* stack, MessageStack*) override;
+  MessageResult Receive(const Message& message, ActionStack* stack, MessageStack*) override;
   void Undo() override;
   int Timestamp() override;
   uint16_t State() const override;
@@ -55,7 +53,7 @@ class Edge : public IAgent {
   void SetState(uint16_t s) { state_ = s; }
 
  private:
-  uint16_t NewState(const Message& m);
+  uint16_t NewState(const Message& m) const;
 
   std::string PrintChar() { return o_ == Orientation::HORIZONTAL ? "─" : "│"; }
 
@@ -68,8 +66,8 @@ class Edge : public IAgent {
   // TODO: Let these be collections of IAgents.
   std::vector<std::tuple<Face*, int>> faces_;
   std::vector<std::tuple<Corner*, int>> corners_;
-  Loops* loops_;
-  std::vector<Boundary*> boundaries_;
+  IAgent* loops_;
+  std::vector<IAgent*> boundaries_;
   std::string print_char_;
 };
 

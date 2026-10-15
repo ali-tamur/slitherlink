@@ -1,3 +1,4 @@
+#include <exception>
 #include <iostream>
 
 #include "corner.h"
@@ -85,7 +86,8 @@ void Run() {
   // "2   131  313   "
   // "  222 2    22 3");
 
-  Grid g(15, 15);
+  constexpr int PUZZLE_SIZE = 15;
+  Grid g(PUZZLE_SIZE, PUZZLE_SIZE);
   InitGrid(&g,
            "    2222  2   3"
            "21 2 2 12     2"
@@ -112,6 +114,13 @@ void Run() {
 }  // namespace puzzle
 
 int main() {
-  puzzle::Run();
-  return 0;
+  try {
+    puzzle::Run();
+    return 0;
+  } catch (const std::exception& e) {
+    std::cerr << "error: " << e.what() << "\n";
+  } catch (...) {
+    std::cerr << "error: unknown exception\n";
+  }
+  return 1;
 }

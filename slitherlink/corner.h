@@ -4,6 +4,7 @@
 #include <memory>
 #include <optional>
 #include <string>
+#include <string_view>
 #include <tuple>
 #include <variant>
 #include <vector>
@@ -40,7 +41,7 @@ class Corner : public IAgent {
 
   std::vector<Message> ConstructMessages();
 
-  MessageResult Receive(const Message& signal, ActionStack* stack, MessageStack*) override;
+  MessageResult Receive(const Message& message, ActionStack* stack, MessageStack*) override;
   void Undo() override;
   int Timestamp() override;
   uint16_t State() const override;
@@ -52,9 +53,9 @@ class Corner : public IAgent {
   std::vector<Edge*>& Edges() { return edges_; }
 
  private:
-  uint16_t NewState(const Message& message);
+  uint16_t NewState(const Message& message) const;
 
-  std::string SetPrintChar();
+  std::string_view SetPrintChar();
 
   int timestamp_ = 0;
   std::vector<uint16_t> old_states_;

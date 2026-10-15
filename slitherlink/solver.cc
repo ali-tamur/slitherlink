@@ -13,13 +13,16 @@
 
 namespace puzzle {
 
+// Print every state change the solver makes (very verbose).
+constexpr bool TRACE_MESSAGES = false;
+
 using Solution = std::vector<std::tuple<int, int, Orientation>>;
 
 Solution GetSolution(Grid* g) {
   Solution result;
   for (auto& e : g->Edges()) {
     if (e.State() == EDGE_ON) {
-      result.push_back(std::make_tuple(e.Row(), e.Col(), e.Orientation()));
+      result.emplace_back(e.Row(), e.Col(), e.Orientation());
     }
   }
   return result;
@@ -40,66 +43,77 @@ void InitialConsequences(Grid* g, MessageStack* ms) {
   }
 }
 
-void InitialThreeThree(Grid* g, MessageStack* ms) {
+namespace {
+
+bool IsThree(const Face& f) { return f.HasValue() && f.Value() == 3; }
+
+void PushThreeThree(MessageStack* ms, Edge* e, bool on) {
+  ms->Push(Message::ToEdge(ManualAgent::ThreeThree(), e, 0, on));
+}
+
+// Two 3s side by side: their three vertical edges are on, and the vertical
+// edges above and below the shared edge are off.
+void ThreeThreeSideBySide(Grid* g, MessageStack* ms) {
   for (int r = 0; r < g->NRows(); ++r) {
     for (int c = 0; c < g->NCols() - 1; ++c) {
-      auto& f1 = g->FaceAt(r, c);
-      if (!f1.HasValue() || f1.Value() != 3) {
+      if (!IsThree(g->FaceAt(r, c)) || !IsThree(g->FaceAt(r, c + 1))) {
         continue;
       }
-      auto& f2 = g->FaceAt(r, c + 1);
-      if (!f2.HasValue() || f2.Value() != 3) {
-        continue;
-      }
-      std::vector<Edge*> edges = {&g->EdgeAt(r, c, Orientation::VERTICAL),
-                                  &g->EdgeAt(r, c + 1, Orientation::VERTICAL),
-                                  &g->EdgeAt(r, c + 2, Orientation::VERTICAL)};
-      for (auto* e : edges) {
-        Message m = Message::ToEdge(ManualAgent::ThreeThree(), e, 0, true);
-        ms->Push(m);
+      for (int k = 0; k < 3; ++k) {
+        PushThreeThree(ms, &g->EdgeAt(r, c + k, Orientation::VERTICAL), true);
       }
       if (r > 0) {
-        Edge* e = &g->EdgeAt(r - 1, c + 1, Orientation::VERTICAL);
-        Message m = Message::ToEdge(ManualAgent::ThreeThree(), e, 0, false);
-        ms->Push(m);
+        PushThreeThree(ms, &g->EdgeAt(r - 1, c + 1, Orientation::VERTICAL), false);
       }
       if (r < g->NRows() - 1) {
-        Edge* e = &g->EdgeAt(r + 1, c + 1, Orientation::VERTICAL);
-        Message m = Message::ToEdge(ManualAgent::ThreeThree(), e, 0, false);
-        ms->Push(m);
+        PushThreeThree(ms, &g->EdgeAt(r + 1, c + 1, Orientation::VERTICAL), false);
       }
     }
   }
+}
 
+// Two 3s stacked: their three horizontal edges are on, and the horizontal
+// edges left and right of the shared edge are off.
+void ThreeThreeStacked(Grid* g, MessageStack* ms) {
   for (int r = 0; r < g->NRows() - 1; ++r) {
     for (int c = 0; c < g->NCols(); ++c) {
-      auto& f1 = g->FaceAt(r, c);
-      if (!f1.HasValue() || f1.Value() != 3) {
+      if (!IsThree(g->FaceAt(r, c)) || !IsThree(g->FaceAt(r + 1, c))) {
         continue;
       }
-      auto& f2 = g->FaceAt(r + 1, c);
-      if (!f2.HasValue() || f2.Value() != 3) {
-        continue;
-      }
-      std::vector<Edge*> edges = {&g->EdgeAt(r, c, Orientation::HORIZONTAL),
-                                  &g->EdgeAt(r + 1, c, Orientation::HORIZONTAL),
-                                  &g->EdgeAt(r + 2, c, Orientation::HORIZONTAL)};
-      for (auto* e : edges) {
-        Message m = Message::ToEdge(ManualAgent::ThreeThree(), e, 0, true);
-        ms->Push(m);
+      for (int k = 0; k < 3; ++k) {
+        PushThreeThree(ms, &g->EdgeAt(r + k, c, Orientation::HORIZONTAL), true);
       }
       if (c > 0) {
-        Edge* e = &g->EdgeAt(r + 1, c - 1, Orientation::HORIZONTAL);
-        Message m = Message::ToEdge(ManualAgent::ThreeThree(), e, 0, false);
-        ms->Push(m);
+        PushThreeThree(ms, &g->EdgeAt(r + 1, c - 1, Orientation::HORIZONTAL), false);
       }
       if (c < g->NCols() - 1) {
-        Edge* e = &g->EdgeAt(r + 1, c + 1, Orientation::HORIZONTAL);
-        Message m = Message::ToEdge(ManualAgent::ThreeThree(), e, 0, false);
-        ms->Push(m);
+        PushThreeThree(ms, &g->EdgeAt(r + 1, c + 1, Orientation::HORIZONTAL), false);
       }
     }
   }
+}
+
+// Delivers m to target; with TRACE_MESSAGES, prints the state change it causes.
+MessageResult Deliver(const Message& m, IAgent* target, ActionStack* as, MessageStack* ms,
+                      int step) {
+  if constexpr (TRACE_MESSAGES) {
+    const uint16_t old_state = target->State();
+    const MessageResult r = target->Receive(m, as, ms);
+    if (old_state != target->State()) {
+      std::cout << step << ":" << m.DebugPrint() << " " << std::bitset<STATE_BITS>(old_state)
+                << " ==> " << std::bitset<STATE_BITS>(target->State()) << "\n";
+    }
+    return r;
+  } else {
+    return target->Receive(m, as, ms);
+  }
+}
+
+}  // namespace
+
+void InitialThreeThree(Grid* g, MessageStack* ms) {
+  ThreeThreeSideBySide(g, ms);
+  ThreeThreeStacked(g, ms);
 }
 
 bool CheckSolution(Grid* g) {
@@ -158,15 +172,7 @@ std::vector<Solution> Solve(Grid* g) {
         continue;
       }
 
-      auto target_old_state = target->State();
-      MessageResult r = target->Receive(m, &as, &ms);
-      auto target_new_state = target->State();
-
-      if (target_old_state != target_new_state) {
-        auto message_pp = m.DebugPrint();
-        std::cout << i << ":" << message_pp << " " << std::bitset<16>(target_old_state) << " ==> "
-                  << std::bitset<16>(target_new_state) << "\n";
-      }
+      MessageResult r = Deliver(m, target, &as, &ms, i);
 
       if (r == MessageResult::OK) {
         continue;

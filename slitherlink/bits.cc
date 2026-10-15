@@ -1,7 +1,6 @@
 #include "slitherlink/bits.h"
 
-#include <assert.h>
-
+#include <cassert>
 #include <cstdint>
 #include <iostream>
 #include <string>
@@ -17,11 +16,11 @@ namespace puzzle {
 
 BitIterator::BitIterator(uint16_t n) : n_(n) {}
 
-bool BitIterator::HasNext() { return n_ != 0; }
+bool BitIterator::HasNext() const { return n_ != 0; }
 int BitIterator::Next() {
   assert((n_ != 0) && "Next call on empty BitIterator");
   int result = __builtin_ctz(n_);
-  n_ = n_ & (n_ - 1);
+  n_ &= static_cast<uint16_t>(n_ - 1U);  // clear the lowest set bit
   return result;
 }
 
@@ -31,7 +30,7 @@ int BitIterator::Next() {
 // Example:
 // N: 13 ==> 1101 and indexes: 0, 1, 3
 // returns 101 (because 0th bit is set, 1st bit is not, 3rd bit is set)
-uint16_t Project2(int n, std::vector<int> indexes) {
+uint16_t Project2(int n, const std::vector<int>& indexes) {
   uint16_t result = 0;
   int now = 0;
   for (int index : indexes) {
@@ -58,7 +57,7 @@ uint16_t Project2(int n, std::vector<int> indexes) {
 // ==> 11:Yes 10:No 01:Yes 00:No
 // ==>      1     0      1     0
 // ==> 10
-uint16_t Project(uint16_t n, std::vector<int> indexes) {
+uint16_t Project(uint16_t n, const std::vector<int>& indexes) {
   BitIterator b(n);
   uint16_t result = 0;
   while (b.HasNext()) {
@@ -85,7 +84,7 @@ uint16_t ProjectSingle(uint16_t n, int index) {
 }
 
 // Reduce n with respect to m. indexes belong to n.
-uint16_t Reduce(uint16_t n, uint16_t m, std::vector<int> n_indexes) {
+uint16_t Reduce(uint16_t n, uint16_t m, const std::vector<int>& n_indexes) {
   BitIterator b(n);
   uint16_t result = 0;
   while (b.HasNext()) {

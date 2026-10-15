@@ -1,5 +1,6 @@
 #include "slitherlink/boundary.h"
 
+#include <utility>
 #include <vector>
 
 #include "slitherlink/edge.h"
@@ -7,7 +8,7 @@
 
 namespace puzzle {
 
-void Boundary::Init(std::vector<Edge*> edges) { edges_ = edges; }
+void Boundary::Init(std::vector<Edge*> edges) { edges_ = std::move(std::move(edges)); }
 
 MessageResult Boundary::Receive(const Message& m, ActionStack* action_stack,
                                 MessageStack* message_stack) {
@@ -29,7 +30,7 @@ MessageResult Boundary::Receive(const Message& m, ActionStack* action_stack,
   // Exactly one edge is not set.
   for (auto* e : edges_) {
     if (e->State() == EDGE_UNKNOWN) {
-      message_stack->PushAll({Message::ToEdge(this, (IAgent*)e, timestamp_, parity_)});
+      message_stack->PushAll({Message::ToEdge(this, e, timestamp_, parity_)});
       break;
     }
   }
@@ -55,7 +56,7 @@ std::string Boundary::DebugPrint() const {
   for (auto* e : edges_) {
     result += e->DebugPrint();
   }
-  result += ")";
+  result += ')';
   return result;
 }
 

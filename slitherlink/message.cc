@@ -1,6 +1,7 @@
 #include "slitherlink/message.h"
 
-#include <assert.h>
+#include <cassert>
+#include <ranges>
 
 #include "slitherlink/edge.h"
 
@@ -16,12 +17,12 @@ Message MessageStack::Pop() {
 }
 
 void MessageStack::PushAll(const std::vector<Message>& s) {
-  for (auto it = s.rbegin(); it != s.rend(); ++it) {
-    messages_.push_back(*it);
+  for (const auto& it : std::views::reverse(s)) {
+    messages_.push_back(it);
   }
 }
 
-int ActionStack::Timestamp() { return timestamp_; }
+int ActionStack::Timestamp() const { return timestamp_; }
 void ActionStack::AddAction(Action a) {
   actions_.push_back(a);
   ++timestamp_;
@@ -37,7 +38,7 @@ Action ActionStack::Undo() {
     actions_.pop_back();
   }
   if (actions_.empty()) {
-    return Action(nullptr, false);
+    return {nullptr, false};
   }
   auto result = actions_.back();
   actions_.pop_back();
@@ -69,9 +70,9 @@ std::string Message::DebugPrintFaceAndCorner() const {
   result += std::to_string(projected_state);
   result += ", Indexes=";
   result += std::to_string(index1);
-  result += ",";
+  result += ',';
   result += std::to_string(index2);
-  result += ")";
+  result += ')';
   return result;
 }
 
@@ -85,7 +86,7 @@ std::string Message::DebugPrintToEdge() const {
   result += std::to_string(timestamp);
   result += ", State=";
   result += edge_state ? "T" : "F";
-  result += ")";
+  result += ')';
   return result;
 }
 
@@ -101,7 +102,7 @@ std::string Message::DebugPrintFromEdge() const {
   result += std::to_string(index1);
   result += ", State=";
   result += edge_state ? "T" : "F";
-  result += ")";
+  result += ')';
   return result;
 }
 

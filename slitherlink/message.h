@@ -112,7 +112,7 @@ class ActionStack {
  public:
   ActionStack() : actions_() {}
 
-  int Timestamp();
+  int Timestamp() const;
   void AddAction(Action a);
 
   // Removes elements and undo'es affects until an assumption.

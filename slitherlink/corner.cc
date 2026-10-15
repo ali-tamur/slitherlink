@@ -13,14 +13,22 @@
 
 namespace puzzle {
 
+namespace {
+// Edge bits of a Corner's combination, in Corner's edge order.
+constexpr unsigned UP = 0b0001;
+constexpr unsigned RIGHT = 0b0010;
+constexpr unsigned DOWN = 0b0100;
+constexpr unsigned LEFT = 0b1000;
+}  // namespace
+
 uint16_t Corner::State() const { return state_; }
 
 void Corner::Init() {
   uint16_t new_state = 0;
   // skip i == 15; it cannot have four edges.
-  for (int i = 0; i < 15; ++i) {
+  for (unsigned i = 0; i < ALL_FOUR_EDGES; ++i) {
     if (__builtin_popcount(i) % 2 == 0) {
-      new_state |= (1 << i);
+      new_state |= (1U << i);
     }
   }
   for (int i = 0; i < 4; ++i) {
@@ -58,25 +66,25 @@ std::vector<Message> Corner::ConstructMessages() {
   }
   if (upright_ != nullptr) {
     uint16_t projected_state = Project(state_, std::vector<int>{0, 1});
-    if (projected_state != 15) {
+    if (projected_state != NO_INFORMATION) {
       r.push_back(Message::FaceAndCorner(this, upright_, timestamp_, projected_state, 3, 2));
     }
   }
   if (downright_ != nullptr) {
     uint16_t projected_state = Project(state_, std::vector<int>{1, 2});
-    if (projected_state != 15) {
+    if (projected_state != NO_INFORMATION) {
       r.push_back(Message::FaceAndCorner(this, downright_, timestamp_, projected_state, 0, 3));
     }
   }
   if (downleft_ != nullptr) {
     uint16_t projected_state = Project(state_, std::vector<int>{2, 3});
-    if (projected_state != 15) {
+    if (projected_state != NO_INFORMATION) {
       r.push_back(Message::FaceAndCorner(this, downleft_, timestamp_, projected_state, 1, 0));
     }
   }
   if (upleft_ != nullptr) {
     uint16_t projected_state = Project(state_, std::vector<int>{0, 3});
-    if (projected_state != 15) {
+    if (projected_state != NO_INFORMATION) {
       r.push_back(Message::FaceAndCorner(this, upleft_, timestamp_, projected_state, 1, 2));
     }
   }
@@ -89,18 +97,18 @@ std::string Corner::PrettyPrint() const {
     return " ";
   }
   std::string result = "\033[93;1m";
-  int i = __builtin_ctz(state_);
-  if (i == 3) {
+  const auto i = static_cast<unsigned>(__builtin_ctz(state_));
+  if (i == (UP | RIGHT)) {
     result += "└";
-  } else if (i == 5) {
+  } else if (i == (UP | DOWN)) {
     result += "│";
-  } else if (i == 6) {
+  } else if (i == (RIGHT | DOWN)) {
     result += "┌";
-  } else if (i == 9) {
+  } else if (i == (UP | LEFT)) {
     result += "┘";
-  } else if (i == 10) {
+  } else if (i == (RIGHT | LEFT)) {
     result += "─";
-  } else if (i == 12) {
+  } else if (i == (DOWN | LEFT)) {
     result += "┐";
   } else {
     return " ";
@@ -109,7 +117,7 @@ std::string Corner::PrettyPrint() const {
   return result;
 }
 
-std::string Corner::SetPrintChar() {
+std::string_view Corner::SetPrintChar() {
   if (upleft_ != nullptr && downleft_ != nullptr && upright_ != nullptr && downright_ != nullptr) {
     return "┼";
   }
@@ -140,7 +148,7 @@ std::string Corner::SetPrintChar() {
   return "?";
 }
 
-uint16_t Corner::NewState(const Message& m) {
+uint16_t Corner::NewState(const Message& m) const {
   assert((m.tag == MessageTag::T_FaceAndCorner || m.tag == MessageTag::T_FromEdge) &&
          "Wrong MessageType");
   if (m.tag == MessageTag::T_FromEdge) {
@@ -191,9 +199,9 @@ std::string Corner::DebugPrint() const {
     col = edges_[3]->Col() + 1;
   }
   result += std::to_string(row);
-  result += ",";
+  result += ',';
   result += std::to_string(col);
-  result += ")";
+  result += ')';
   return result;
 }
 

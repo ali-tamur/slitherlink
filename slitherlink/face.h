@@ -59,9 +59,9 @@ class Face : public IAgent {
   const std::vector<Edge*>& Edges() const { return edges_; }
 
   void Undo() override;
-  MessageResult Receive(const Message& signal, ActionStack* stack, MessageStack*) override;
+  MessageResult Receive(const Message& message, ActionStack* stack, MessageStack*) override;
 
-  uint16_t NewState(const Message& message);
+  uint16_t NewState(const Message& message) const;
 
   // Testing purposes
   std::vector<Corner*> Corners() {

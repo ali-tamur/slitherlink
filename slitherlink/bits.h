@@ -34,7 +34,7 @@ class BitIterator {
  public:
   BitIterator(uint16_t n);
 
-  bool HasNext();
+  bool HasNext() const;
   int Next();
 
  private:
@@ -49,7 +49,7 @@ class BitIterator {
 // returns 101 (because 0th bit is set, 1st bit is not, 3rd bit is set)
 //
 // Declared in the header for testing.
-uint16_t Project2(int n, std::vector<int> indexes);
+uint16_t Project2(int n, const std::vector<int>& indexes);
 
 // Given n that represents a bitset:
 // 1. for each row, calculate another row ignoring the absent bits.
@@ -67,7 +67,7 @@ uint16_t Project2(int n, std::vector<int> indexes);
 // ==> 11:Yes 10:No 01:Yes 00:No
 // ==>      1     0      1     0
 // ==> 10
-uint16_t Project(uint16_t n, std::vector<int> indexes);
+uint16_t Project(uint16_t n, const std::vector<int>& indexes);
 
 // 0 ==> n was 0, already contradiction
 // 1 ==> false
@@ -76,7 +76,7 @@ uint16_t Project(uint16_t n, std::vector<int> indexes);
 uint16_t ProjectSingle(uint16_t n, int index);
 
 // Reduce n with respect to m. indexes belong to n.
-uint16_t Reduce(uint16_t n, uint16_t m, std::vector<int> n_indexes);
+uint16_t Reduce(uint16_t n, uint16_t m, const std::vector<int>& n_indexes);
 
 uint16_t ReduceSingle(uint16_t n, int index, bool equals_to);
 

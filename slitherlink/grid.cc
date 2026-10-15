@@ -27,15 +27,28 @@ void Grid::Init() {
 
 Grid::Grid(int rows, int cols) : rows_(rows), cols_(cols) {
   for (int i = 0; i < rows_ * cols_; ++i) {
-    faces_.push_back(Face());
+    faces_.emplace_back();
   }
   for (int i = 0; i < (rows_ + 1) * (cols_ + 1); ++i) {
-    corners_.push_back(Corner());
+    corners_.emplace_back();
   }
   for (int i = 0; i < (rows_ * (cols_ + 1)) + ((rows_ + 1) * cols_); ++i) {
-    edges_.push_back(Edge());
+    edges_.emplace_back();
   }
 
+  LinkFaces();
+  LinkCorners();
+  LinkVerticalEdges();
+  LinkHorizontalEdges();
+  InitBoundaries();
+
+  loops_.Init(rows_, cols_, [&](int r, int c, Orientation o) { return &EdgeAt(r, c, o); });
+  for (auto& e : edges_) {
+    e.SetLoops(&loops_);
+  }
+}
+
+void Grid::LinkFaces() {
   for (int i = 0; i < rows_ * cols_; ++i) {
     auto tup = IndexToRowCol(rows_, cols_, i);
     auto row = std::get<0>(tup);
@@ -46,6 +59,9 @@ Grid::Grid(int rows, int cols) : rows_(rows), cols_(cols) {
         &EdgeAt(row, col, Orientation::HORIZONTAL), &EdgeAt(row, col + 1, Orientation::VERTICAL),
         &EdgeAt(row + 1, col, Orientation::HORIZONTAL), &EdgeAt(row, col, Orientation::VERTICAL));
   }
+}
+
+void Grid::LinkCorners() {
   for (int i = 0; i < (rows_ + 1) * (cols_ + 1); ++i) {
     auto tup = IndexToRowCol(rows_ + 1, cols_ + 1, i);
     auto row = std::get<0>(tup);
@@ -59,25 +75,28 @@ Grid::Grid(int rows, int cols) : rows_(rows), cols_(cols) {
                          row == rows_ ? nullptr : &EdgeAt(row, col, Orientation::VERTICAL),
                          col == 0 ? nullptr : &EdgeAt(row, col - 1, Orientation::HORIZONTAL));
   }
+}
 
-  // Vertical Edges
+void Grid::LinkVerticalEdges() {
   for (int i = 0; i < rows_ * (cols_ + 1); ++i) {
     auto tup = IndexToRowCol(rows_, cols_ + 1, i);
     auto row = std::get<0>(tup);
     auto col = std::get<1>(tup);
     std::vector<std::tuple<Face*, int>> face_list;
     if (col > 0) {
-      face_list.push_back(std::make_tuple(&FaceAt(row, col - 1), 1));
+      face_list.emplace_back(&FaceAt(row, col - 1), 1);
     }
     if (col < cols_) {
-      face_list.push_back(std::make_tuple(&FaceAt(row, col), 3));
+      face_list.emplace_back(&FaceAt(row, col), 3);
     }
     edges_[i].SetCoordinate(row, col, Orientation::VERTICAL);
     edges_[i].SetFaces(face_list);
     edges_[i].SetCorners(
         {std::make_tuple(&CornerAt(row, col), 2), std::make_tuple(&CornerAt(row + 1, col), 0)});
   }
-  // Horizontal Edges
+}
+
+void Grid::LinkHorizontalEdges() {
   int base = rows_ * (cols_ + 1);
   for (int i = 0; i < (rows_ + 1) * cols_; ++i) {
     auto tup = IndexToRowCol(rows_ + 1, cols_, i);
@@ -85,22 +104,23 @@ Grid::Grid(int rows, int cols) : rows_(rows), cols_(cols) {
     auto col = std::get<1>(tup);
     std::vector<std::tuple<Face*, int>> face_list;
     if (row > 0) {
-      face_list.push_back(std::make_tuple(&FaceAt(row - 1, col), 2));
+      face_list.emplace_back(&FaceAt(row - 1, col), 2);
     }
     if (row < rows_) {
-      face_list.push_back(std::make_tuple(&FaceAt(row, col), 0));
+      face_list.emplace_back(&FaceAt(row, col), 0);
     }
     edges_[base + i].SetCoordinate(row, col, Orientation::HORIZONTAL);
     edges_[base + i].SetFaces(face_list);
     edges_[base + i].SetCorners(
         {std::make_tuple(&CornerAt(row, col), 1), std::make_tuple(&CornerAt(row, col + 1), 3)});
   }
+}
 
-  // Boundaries
+void Grid::InitBoundaries() {
   for (int r = 0; r < rows_; ++r) {
     for (int c = 0; c < cols_; ++c) {
       for (int n = 0; n < 4; ++n) {
-        boundaries_.push_back(Boundary());
+        boundaries_.emplace_back();
       }
     }
   }
@@ -110,11 +130,6 @@ Grid::Grid(int rows, int cols) : rows_(rows), cols_(cols) {
       InitBoundary(r, c, bn);
       bn += 4;
     }
-  }
-
-  loops_.Init(rows_, cols_, [&](int r, int c, Orientation o) { return &EdgeAt(r, c, o); });
-  for (auto& e : edges_) {
-    e.SetLoops(&loops_);
   }
 }
 
@@ -187,7 +202,7 @@ std::string Grid::DrawLine(int r) {
     result += EdgeAt(r, c, Orientation::HORIZONTAL).PrettyPrint();
   }
   result += CornerAt(r, cols_).PrettyPrint();
-  result += "\n";
+  result += '\n';
   return result;
 }
 
@@ -198,7 +213,7 @@ std::string Grid::DrawRow(int r) {
     result += FaceAt(r, c).PrettyPrint();
   }
   result += EdgeAt(r, cols_, Orientation::VERTICAL).PrettyPrint();
-  result += "\n";
+  result += '\n';
   return result;
 }
 
