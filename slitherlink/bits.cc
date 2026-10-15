@@ -1,4 +1,4 @@
-#include "puz/bits.h"
+#include "slitherlink/bits.h"
 
 #include <assert.h>
 

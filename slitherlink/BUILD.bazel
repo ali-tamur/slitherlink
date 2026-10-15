@@ -1,3 +1,7 @@
+load("@rules_cc//cc:cc_binary.bzl", "cc_binary")
+load("@rules_cc//cc:cc_library.bzl", "cc_library")
+load("@rules_cc//cc:cc_test.bzl", "cc_test")
+
 cc_library(
     name = "utils",
     srcs = ["utils.cc"],
@@ -17,7 +21,7 @@ cc_test(
     srcs = ["bits_test.cc"],
     deps = [
         ":bits",
-        "//googletest:gtest_main",
+        "@googletest//:gtest_main",
     ],
 )
 
@@ -33,7 +37,7 @@ cc_library(
         ":bits",
         ":message",
         ":utils",
-        "//absl/strings",
+        "@abseil-cpp//absl/strings",
     ],
 )
 
@@ -48,7 +52,7 @@ cc_library(
     deps = [
         ":bits",
         ":message",
-        "//absl/strings",
+        "@abseil-cpp//absl/strings",
     ],
 )
 
@@ -57,7 +61,7 @@ cc_test(
     srcs = ["face_test.cc"],
     deps = [
         ":face",
-        "//googletest:gtest_main",
+        "@googletest//:gtest_main",
     ],
 )
 
@@ -72,7 +76,7 @@ cc_library(
     deps = [
         ":bits",
         ":message",
-        "//absl/strings",
+        "@abseil-cpp//absl/strings",
     ],
 )
 
@@ -82,7 +86,7 @@ cc_test(
     deps = [
         ":corner",
         ":edge",
-        "//googletest:gtest_main",
+        "@googletest//:gtest_main",
     ],
 )
 
@@ -94,7 +98,7 @@ cc_library(
         "message.h",
         "utils.h",
     ],
-    deps = ["//absl/strings"],
+    deps = ["@abseil-cpp//absl/strings"],
 )
 
 cc_library(
@@ -116,7 +120,7 @@ cc_library(
         ":loops",
         ":message",
         ":utils",
-        "//absl/strings",
+        "@abseil-cpp//absl/strings",
     ],
 )
 
@@ -125,7 +129,7 @@ cc_test(
     srcs = ["grid_test.cc"],
     deps = [
         ":grid",
-        "//googletest:gtest_main",
+        "@googletest//:gtest_main",
     ],
 )
 
@@ -158,7 +162,7 @@ cc_test(
     deps = [
         ":grid",
         ":loops",
-        "//googletest:gtest_main",
+        "@googletest//:gtest_main",
     ],
 )
 
@@ -187,7 +191,7 @@ cc_library(
         ":grid",
         ":message",
         ":utils",
-        "//absl/strings",
+        "@abseil-cpp//absl/strings",
     ],
 )
 
@@ -196,7 +200,7 @@ cc_test(
     srcs = ["solver_test.cc"],
     deps = [
         ":solver",
-        "//googletest:gtest_main",
+        "@googletest//:gtest_main",
     ],
 )
 
@@ -205,6 +209,6 @@ cc_test(
     srcs = ["boundary_test.cc"],
     deps = [
         ":boundary",
-        "//googletest:gtest_main",
+        "@googletest//:gtest_main",
     ],
 )

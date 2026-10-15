@@ -1,9 +1,9 @@
-#include "puz/boundary.h"
+#include "slitherlink/boundary.h"
 
 #include <vector>
 
-#include "puz/edge.h"
-#include "puz/message.h"
+#include "slitherlink/edge.h"
+#include "slitherlink/message.h"
 
 namespace puzzle {
 
@@ -13,7 +13,6 @@ MessageResult Boundary::Receive(const Message& m, ActionStack* action_stack,
                                 MessageStack* message_stack) {
   assert((m.tag == MessageTag::T_FromEdge) && "Wrong MessageType");
 
-  auto* source = m.source;
   bool edge_state = m.edge_state;
 
   stack_.push_back(parity_);

@@ -1,8 +1,8 @@
-#include "puz/message.h"
+#include "slitherlink/message.h"
 
 #include <assert.h>
 
-#include "puz/edge.h"
+#include "slitherlink/edge.h"
 
 namespace puzzle {
 

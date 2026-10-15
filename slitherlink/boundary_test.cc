@@ -1,4 +1,4 @@
-#include "puz/boundary.h"
+#include "slitherlink/boundary.h"
 
 #include "gmock/gmock.h"
 #include "gtest/gtest.h"
@@ -63,7 +63,6 @@ TEST_F(BoundaryTest, simple) {
 
   b.Undo();
   e3.Undo();
-  Message m6 = Message::FromEdge(&e3, &b, 1, 0, false);
   EXPECT_THAT(SendMessage(&b, &e3, false), MessageResult::OK);
 }
 

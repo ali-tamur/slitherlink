@@ -8,9 +8,9 @@
 #include <tuple>
 #include <vector>
 
-#include "puz/edge.h"
-#include "puz/message.h"
-#include "puz/utils.h"
+#include "slitherlink/edge.h"
+#include "slitherlink/message.h"
+#include "slitherlink/utils.h"
 
 namespace puzzle {
 

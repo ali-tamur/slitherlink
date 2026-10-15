@@ -1,11 +1,11 @@
-#include "puz/loops.h"
+#include "slitherlink/loops.h"
 
 #include <functional>
 
 #include "gmock/gmock.h"
 #include "gtest/gtest.h"
-#include "puz/grid.h"
-#include "puz/message.h"
+#include "slitherlink/grid.h"
+#include "slitherlink/message.h"
 
 namespace puzzle {
 

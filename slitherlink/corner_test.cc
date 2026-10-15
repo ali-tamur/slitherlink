@@ -1,8 +1,8 @@
-#include "puz/corner.h"
+#include "slitherlink/corner.h"
 
 #include "gmock/gmock.h"
 #include "gtest/gtest.h"
-#include "puz/edge.h"
+#include "slitherlink/edge.h"
 
 namespace puzzle {
 

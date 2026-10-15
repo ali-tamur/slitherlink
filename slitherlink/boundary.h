@@ -3,8 +3,8 @@
 
 #include <vector>
 
-#include "puz/edge.h"
-#include "puz/message.h"
+#include "slitherlink/edge.h"
+#include "slitherlink/message.h"
 
 namespace puzzle {
 

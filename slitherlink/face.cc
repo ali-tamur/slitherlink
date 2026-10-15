@@ -1,4 +1,4 @@
-#include "puz/face.h"
+#include "slitherlink/face.h"
 
 #include <math.h>
 
@@ -10,9 +10,9 @@
 #include <vector>
 
 #include "absl/strings/str_cat.h"
-#include "puz/bits.h"
-#include "puz/corner.h"
-#include "puz/message.h"
+#include "slitherlink/bits.h"
+#include "slitherlink/corner.h"
+#include "slitherlink/message.h"
 
 namespace puzzle {
 

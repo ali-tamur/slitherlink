@@ -9,13 +9,13 @@
 #include <vector>
 
 #include "absl/strings/str_cat.h"
-#include "puz/boundary.h"
-#include "puz/corner.h"
-#include "puz/edge.h"
-#include "puz/face.h"
-#include "puz/loops.h"
-#include "puz/message.h"
-#include "puz/utils.h"
+#include "slitherlink/boundary.h"
+#include "slitherlink/corner.h"
+#include "slitherlink/edge.h"
+#include "slitherlink/face.h"
+#include "slitherlink/loops.h"
+#include "slitherlink/message.h"
+#include "slitherlink/utils.h"
 
 namespace puzzle {
 

@@ -1,4 +1,4 @@
-#include "puz/corner.h"
+#include "slitherlink/corner.h"
 
 #include <optional>
 #include <string>
@@ -7,16 +7,16 @@
 #include <vector>
 
 #include "absl/strings/str_cat.h"
-#include "puz/bits.h"
-#include "puz/face.h"
-#include "puz/message.h"
+#include "slitherlink/bits.h"
+#include "slitherlink/face.h"
+#include "slitherlink/message.h"
 
 namespace puzzle {
 
 uint16_t Corner::State() const { return state_; }
 
 void Corner::Init() {
-  uint16_t new_state;
+  uint16_t new_state = 0;
   // skip i == 15; it cannot have four edges.
   for (int i = 0; i < 15; ++i) {
     if (__builtin_popcount(i) % 2 == 0) {

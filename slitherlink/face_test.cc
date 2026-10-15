@@ -1,4 +1,4 @@
-#include "puz/face.h"
+#include "slitherlink/face.h"
 
 #include "gmock/gmock.h"
 #include "gtest/gtest.h"

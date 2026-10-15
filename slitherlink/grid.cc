@@ -1,4 +1,4 @@
-#include "puz/grid.h"
+#include "slitherlink/grid.h"
 
 #include <memory>
 #include <optional>
@@ -8,11 +8,11 @@
 #include <vector>
 
 #include "absl/strings/str_cat.h"
-#include "puz/bits.h"
-#include "puz/corner.h"
-#include "puz/face.h"
-#include "puz/message.h"
-#include "puz/utils.h"
+#include "slitherlink/bits.h"
+#include "slitherlink/corner.h"
+#include "slitherlink/face.h"
+#include "slitherlink/message.h"
+#include "slitherlink/utils.h"
 
 namespace puzzle {
 

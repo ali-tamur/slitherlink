@@ -1,8 +1,8 @@
-#include "puz/solver.h"
+#include "slitherlink/solver.h"
 
 #include "gmock/gmock.h"
 #include "gtest/gtest.h"
-#include "puz/grid.h"
+#include "slitherlink/grid.h"
 
 namespace puzzle {
 

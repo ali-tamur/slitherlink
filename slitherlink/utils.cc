@@ -1,4 +1,4 @@
-#include "puz/utils.h"
+#include "slitherlink/utils.h"
 
 namespace puzzle {
 

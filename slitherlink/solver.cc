@@ -1,22 +1,21 @@
-#include "puz/solver.h"
+#include "slitherlink/solver.h"
 
 #include <algorithm>
 #include <bitset>
 #include <vector>
 
-#include "puz/bits.h"
-#include "puz/corner.h"
-#include "puz/edge.h"
-#include "puz/face.h"
-#include "puz/grid.h"
-#include "puz/message.h"
+#include "slitherlink/bits.h"
+#include "slitherlink/corner.h"
+#include "slitherlink/edge.h"
+#include "slitherlink/face.h"
+#include "slitherlink/grid.h"
+#include "slitherlink/message.h"
 
 namespace puzzle {
 
 using Solution = std::vector<std::tuple<int, int, Orientation>>;
 
 Solution GetSolution(Grid* g) {
-  std::vector<Edge>& edges = g->Edges();
 
   Solution result;
   for (auto& e : g->Edges()) {

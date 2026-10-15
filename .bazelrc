@@ -1,0 +1,12 @@
+common --cxxopt=-std=c++23
+common --host_cxxopt=-std=c++23
+
+# Strict warnings for our code; silence third-party code and headers.
+build --per_file_copt=^slitherlink/.*@-Wall,-Werror
+build --per_file_copt=external/.*@-w
+build --host_per_file_copt=external/.*@-w
+build --features=external_include_paths
+build --host_features=external_include_paths
+
+test --test_output=errors
+

@@ -1,4 +1,4 @@
-#include "puz/grid.h"
+#include "slitherlink/grid.h"
 
 #include "gmock/gmock.h"
 #include "gtest/gtest.h"

@@ -1,4 +1,4 @@
-#include "puz/loops.h"
+#include "slitherlink/loops.h"
 
 #include <assert.h>
 
@@ -7,9 +7,9 @@
 #include <tuple>
 #include <vector>
 
-#include "puz/edge.h"
-#include "puz/message.h"
-#include "puz/utils.h"
+#include "slitherlink/edge.h"
+#include "slitherlink/message.h"
+#include "slitherlink/utils.h"
 
 namespace puzzle {
 
@@ -88,9 +88,6 @@ MessageResult Loops::Receive(const Message& m, ActionStack* action_stack,
                              MessageStack* message_stack) {
   assert((m.tag == MessageTag::T_FromEdge) && "Wrong Message Type to Loops");
   const Edge* source = (Edge*)m.source;
-  auto* target = m.target;
-  int timestamp = m.timestamp;
-  int index = m.index1;
 
   // Don't care about turned off edges.
   if (!m.edge_state) {

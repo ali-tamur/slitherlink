@@ -9,8 +9,8 @@
 #include <vector>
 
 #include "absl/strings/str_cat.h"
-#include "puz/edge.h"
-#include "puz/message.h"
+#include "slitherlink/edge.h"
+#include "slitherlink/message.h"
 
 namespace puzzle {
 
